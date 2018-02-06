@@ -35,10 +35,10 @@ The software must be executable at a local environment.
 
 ### Documentation
 
-Document how your software has to be setup and executed. You may use any automation tools you want (or not).
-Document your code.
-Document your distribution model and database model. Choose a proper format, e.g. ERM for the database, UML for the distribution model. Only the distribution model allows plaintext as well ;)
-Document the RESTful API.
+ - Document how your software has to be setup and executed. You may use any automation tools you want (or not).
+ - Document your code.
+ - Document your distribution model and database model. Choose a proper format, e.g. ERM for the database, UML for the distribution model. Only the distribution model allows plaintext as well ;)
+ - Document the RESTful API.
 
 ### Test and execution
 
