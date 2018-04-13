@@ -1,3 +1,6 @@
+my schange
+
+
 # Conversion Tracking Model
 
 Goal is to implement a conversion tracking model for advertisers that weights various points of contacts with their customers.
