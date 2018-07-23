@@ -11,7 +11,7 @@ Fork this project, implement your solution and open a Pull Request at github.
 Implement a GET web-endpoint that is accessed by advertisers to track a conversion (a customer buys a product) and connect it with the various internet placements the advertiser has deployed. 
 The endpoint shall accept the following parameters:
 
- - **revenue** revenue of the conversion in €, full numbers (no cent-values). If cent values arrive, ceil of floor as appropriate
+ - **revenue** revenue of the conversion in €, full numbers (no cent-values). If cent values arrive, ceil or floor as appropriate
  - **customerId**
  - **bookingNumber** Booking number as given by the advertiser. Within the data-model, this needs to be unique per customer-platform composite key
  
