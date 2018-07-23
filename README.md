@@ -13,7 +13,7 @@ The endpoint shall accept the following parameters:
 
  - **revenue** revenue of the conversion in €, full numbers (no cent-values). If cent values arrive, ceil or floor as appropriate
  - **customerId**
- - **bookingNumber** Booking number as given by the advertiser. Within the data-model, this needs to be unique per customer-platform composite key
+ - **bookingNumber** Booking number as given by the advertiser. Within the data-model, this needs to be unique per customer
  
 On request, you need to read a cookie that holds points of contact of the requester with the advertiser's placements. For convenience, this cookie shall hold the following hard-coded json:
 This endpoint must not have access restrictions.
