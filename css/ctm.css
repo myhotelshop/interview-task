@@ -1,0 +1,75 @@
+/*INDEX*/
+body{text-align:left; margin:0 auto; background-image:url(../img/grey.jpg); background-repeat:repeat;}
+
+#head{background:#000; color:#aaa; width:1280px; text-align:center; opacity: 0.8; font-size:170%; margin:0 auto; padding:0px; border-top:3px solid #468ACA;}
+.headl{float:left;font-family:Impact;font-size:120%;text-align:left;background:#000;color:#999;margin:5px 2px 5px 2px;padding:5px;}
+.headl a{color:#468ACA;text-decoration:none;color:#c95c61;padding:5px;margin:5px;}
+.headl a:hover{color:#aaa;}
+
+#content{width:1280px; background:#000; color:#aaa; margin:0 auto; opacity: 0.8;border-top:3px solid #468ACA;}
+
+#foot{width:1280px;background:#000;color:#aaa;text-align:left;margin:0 auto;opacity: 0.8;border-top:1px solid #222;border-bottom:3px solid #468ACA;}
+.footc{text-align:left;color:#aaa;padding:5px;}
+.footc a{color:#468ACA;text-decoration:none;padding:5px;}
+.footc a:hover{color:#fff;}
+
+.left{float:left}
+.right{float:right}
+.hide{display:none}
+.show{display:block}
+.clear{clear:both}
+
+#platform{margin:10px;}
+#conversion{margin:10px;float:left;}
+#connection{margin:10px;float:left;}
+#mvpath{float:left;background:#000;}
+#mvpathdata{float:left;}
+
+.fhhead{font-family:Impact;font-size:120%;float:left;min-width:120px;background:#257dbc;color:#fff;margin:1px;padding:5px;}
+.fhhead a {font-family:Impact; display:block;text-decoration:none;color:#fff;background:#257dbc;padding:0px;}
+.fhhead a:hover{color:#000; background:#257dbc;}
+
+.fhhead2{font-family:Impact;font-size:120%;float:left;min-width:120px;background:#257dbc;color:#000;margin:1px;padding:5px;}
+.fhhead2 a {font-family:Impact; display:block;text-decoration:none;background:#257dbc;color:#000;padding:0px;}
+.fhhead2 a:hover{color:#000;background:#257dbc;}
+
+.fhitem{font-family:Impact;font-size:120%;float:left;min-width:120px;background:#111;color:#aaa;margin:1px;padding:5px;}
+.fhitem a {font-family:Impact; display:block;text-decoration:none;color:#fff;background:#111;padding:0px;}
+.fhitem a:hover{color:#fff; background:#a81a21;}
+
+.fhitem2{font-family:Impact;font-size:120%;float:left;min-width:120px; background:#a81a21;color:#fff;margin:1px;padding:5px;}
+.fhitem2 a { font-family:Impact; display:block; text-decoration:none; color:#fff; background:#a81a21; padding:0px;}
+.fhitem2 a:hover{color:#fff; background:#a81a21;}
+
+
+.fh3{font-family:Impact;font-size:120%;float:left;min-width:120px;background:#e3d678;color:#000;margin:1px;padding:5px;}
+.fh3 a {font-family:Impact; display:block;text-decoration:none;color:#000;background:#e3d678;padding:0px;}
+.fh3 a:hover{color:#000; background:#e3d678;}
+
+.fh4{font-family:Impact;font-size:120%;float:left;min-width:120px; background:#111;color:#fff;margin:1px;padding:5px;}
+.fh4 a { font-family:Impact; display:block; text-decoration:none; color:#fff; background:#111; padding:0px;}
+.fh4 a:hover{color:#000; background:#e3d678;}
+
+.fh5head{font-family:Impact;font-size:120%;float:left;min-width:120px;background:#e3d678;color:#000;margin:1px;padding:5px;}
+.fh5head a {font-family:Impact; display:block;text-decoration:none;color:#000;background:#e3d678;padding:0px;}
+.fh5head a:hover{color:#000; background:#e3d678;}
+
+.fh5headbig{font-family:Impact;font-size:120%;float:left;min-width:160px;background:#e3d678;color:#000;margin:1px;padding:5px;}
+.fh5headbig a {font-family:Impact; display:block;text-decoration:none;color:#000;background:#e3d678;padding:0px;}
+.fh5headbig a:hover{color:#000; background:#e3d678;}
+
+.fh5{font-family:Impact;font-size:120%;float:left;min-width:120px;background:#74ac6d;color:#000;margin:1px;padding:5px;}
+.fh5 a {font-family:Impact; display:block;text-decoration:none;color:#000;background:#74ac6d;padding:0px;}
+.fh5 a:hover{color:#000; background:#74ac6d;}
+
+.fh5big{font-family:Impact;font-size:120%;float:left;min-width:160px;background:#74ac6d;color:#000;margin:1px;padding:5px;}
+.fh5big a {font-family:Impact; display:block;text-decoration:none;color:#000;background:#74ac6d;padding:0px;}
+.fh5big a:hover{color:#000; background:#74ac6d;}
+
+.fh6{font-family:Impact;font-size:120%;float:left;min-width:120px;background:#111;color:#fff;margin:1px;padding:5px;}
+.fh6 a { font-family:Impact; display:block; text-decoration:none; color:#fff; background:#111; padding:0px;}
+.fh6 a:hover{color:#000; background:#e3d678;}
+
+.fh6big{font-family:Impact;font-size:120%;float:left;min-width:160px;background:#111;color:#fff;margin:1px;padding:5px;}
+.fh6big a { font-family:Impact; display:block; text-decoration:none; color:#fff; background:#111; padding:0px;}
+.fh6big a:hover{color:#000; background:#e3d678;}
