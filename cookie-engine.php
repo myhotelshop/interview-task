@@ -44,7 +44,7 @@
 
       $jcookie = json_encode($cookie);
 
-      $URL = 'http://192.168.23.197/collect.php?revenue='.$revenue.'&customerId='.$id.'&bookingNumber='.$bookingNumber;
+      $URL = 'http://localhost/collect.php?revenue='.$revenue.'&customerId='.$id.'&bookingNumber='.$bookingNumber;
       
       curl_setopt($ch, CURLOPT_COOKIE, 'mhs-tracking='.$jcookie);
       curl_setopt($ch, CURLOPT_URL, $URL);
