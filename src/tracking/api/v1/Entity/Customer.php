@@ -41,7 +41,7 @@ class Customer
     /**
      * @param string $name
      */
-    public function setText(string $name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }

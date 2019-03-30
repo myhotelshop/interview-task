@@ -1,6 +1,7 @@
 <?php
 namespace App\tracking\api\v1\Controller;
 
+use App\tracking\api\v1\Service\TrackingService;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcher;
@@ -9,6 +10,21 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TrackingController extends AbstractFOSRestController
 {
+
+    /**
+     * @var TrackingService
+     */
+    private $trackingService;
+
+    /**
+     * TrackingController constructor.
+     * @param TrackingService $trackingService
+     */
+    public function __construct(TrackingService $trackingService)
+    {
+        $this->trackingService = $trackingService;
+    }
+
     /**
      * Tracks the user conversion and distribute revenue on platforms
      * @Rest\Get("/track")
@@ -33,7 +49,8 @@ class TrackingController extends AbstractFOSRestController
                     'revenue' => $revenue,
                     'customerId' => $customerId,
                     'bookingReference' => $bookingReference,
-                    'tracking' => $cookie
+                    'tracking' => $cookie,
+                    'customers' => $this->trackingService->getCustomers()
                 ],
                 Response::HTTP_CREATED
             )
