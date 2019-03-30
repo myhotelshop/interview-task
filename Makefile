@@ -17,6 +17,9 @@ code-std: ## Standardize the PHP code according to PSR2
 code-chk: ## Check the PHP code according to PSR2
 	@docker exec -it web_container ./vendor/bin/phpcs
 
+safe-chk: ## Check if dependencies are safe
+	@docker exec -it web_container ./bin/console security:check
+
 run: ## run the application
 	@docker-compose up -d
 
