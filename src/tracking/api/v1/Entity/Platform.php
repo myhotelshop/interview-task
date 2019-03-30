@@ -6,9 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\tracking\api\v1\Repository\CustomerRepository")
+ * @ORM\Entity(repositoryClass="App\tracking\api\v1\Repository\PlatformRepository")
  */
-class Customer
+class Platform
 {
     /**
      * @ORM\Id()
@@ -24,16 +24,18 @@ class Customer
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Platform", mappedBy="customers")
+     * @ORM\ManyToMany(targetEntity="Customer", inversedBy="platforms")
+     * @ORM\JoinTable(name="platform_placements_users")
      */
-    private $platforms;
+    private $customers;
+
 
     /**
-     * Customer constructor.
+     * Platform constructor.
      */
     public function __construct()
     {
-        $this->platforms = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
 
     /**
@@ -58,5 +60,12 @@ class Customer
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    public function addCustomer(Customer $customer)
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+        }
     }
 }
