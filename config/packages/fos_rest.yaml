@@ -1,6 +1,10 @@
 fos_rest:
-  param_fetcher_listener:  true
+  param_fetcher_listener:  force
   allowed_methods_listener:  true
+  exception:
+    exception_controller: 'fos_rest.exception.controller:showAction'
+    codes:
+      '\FOS\RestBundle\Exception\InvalidParameterException': 400
   format_listener:
     rules:
       - { path: ^/api, prefer_extension: true, fallback_format: json, priorities: [ json ] }
