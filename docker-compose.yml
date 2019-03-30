@@ -1,0 +1,27 @@
+version: '3.5'
+services:
+
+    web:
+        image: firefoxegy/symfony
+        restart: always
+        volumes:
+            - ./:/var/www/html:cached
+        container_name: web_container
+        environment:
+            - COMPOSER_ALLOW_SUPERUSER=1
+            - PHP_IDE_CONFIG=serverName=localhost
+        depends_on:
+            - db
+        ports:
+            - 8088:80
+    db:
+        image: mysql
+        command: mysqld --default-authentication-plugin=mysql_native_password
+        volumes:
+            - ./data:/var/lib/mysql
+        container_name: db_container
+        environment:
+            - MYSQL_DATABASE=tracking_db
+            - MYSQL_ROOT_PASSWORD=myhotelshop
+        ports:
+          - 3306:3306
