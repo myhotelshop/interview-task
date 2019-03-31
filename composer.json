@@ -6,6 +6,7 @@
         "ext-json": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-pdo": "*",
         "friendsofsymfony/rest-bundle": "^2.5",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/console": "4.2.*",
