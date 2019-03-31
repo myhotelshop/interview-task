@@ -41,9 +41,13 @@ run: ## run the application
 	@docker exec -it web_container ./bin/console doctrine:migrations:migrate --no-interaction
 	@docker exec -it web_container ./bin/console doctrine:fixtures:load --no-interaction || true
 
-.PHONY: test
-test: ## PHPUnit Test
-	@docker exec -it web_container ./bin/phpunit -v --colors=always
+.PHONY: unit-test
+unit-test: ## Unit Testing
+	@docker exec -it web_container ./bin/phpunit -v --colors=always ./tests/unit/service
+
+.PHONY: api-test
+api-test: ## API Testing
+	@./bin/phpunit -v --colors=always ./tests/unit/controller/TrackingControllerTest.php
 
 .PHONY: clean
 clean: ## stops the containers if exists and remove all the dependencies
