@@ -6,6 +6,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\DBAL\DBALException;
+use PDO;
+use stdClass;
 
 class PlatformRevenueRepository extends ServiceEntityRepository
 {
@@ -21,7 +24,28 @@ class PlatformRevenueRepository extends ServiceEntityRepository
      */
     public function save(PlatformRevenue $platformRevenue)
     {
-        $this->_em->persist($platformRevenue);
-        $this->_em->flush();
+        $this->getEntityManager()->persist($platformRevenue);
+        $this->getEntityManager()->flush();
+    }
+
+    /**
+     * Query the database for the first platform that attracts users
+     * @return array|null
+     * @throws DBALException
+     */
+    public function getMostAttractedPlatform(): ?stdClass
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT p.name FROM platform p 
+                INNER JOIN (SELECT platform_id FROM platform_revenue
+                GROUP BY booking_reference
+                ORDER BY created) t1
+                ON t1.platform_id = p.id 
+                GROUP BY p.name 
+                ORDER BY COUNT(p.name) DESC 
+                LIMIT 1';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 }

@@ -11,7 +11,9 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use FOS\RestBundle\Exception\InvalidParameterException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Doctrine\DBAL\DBALException;
 use DateTimeImmutable;
+use stdClass;
 
 /**
  * Class TrackingService
@@ -150,5 +152,16 @@ class TrackingService
             $revenueShare,
             $created
         ));
+    }
+
+    /**
+     * Return the
+     * @return string|null
+     * @throws DBALException
+     */
+    public function getMostAttractedPlatform(): ?string
+    {
+        $platform = $this->platformRevenueRepository->getMostAttractedPlatform();
+        return $platform !== null ? $platform->name : null;
     }
 }

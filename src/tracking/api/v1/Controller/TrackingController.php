@@ -8,6 +8,7 @@ use FOS\RestBundle\Request\ParamFetcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
+use Doctrine\DBAL\DBALException;
 
 class TrackingController extends AbstractFOSRestController
 {
@@ -50,5 +51,20 @@ class TrackingController extends AbstractFOSRestController
         $this->trackingService->distributeRevenue($customerId, $cookie, $bookingReference, $revenue);
 
         return $this->handleView($this->view(null, Response::HTTP_OK));
+    }
+
+    /**
+     * Get the platform that most attracts customers first
+     * @Rest\Get("/platform")
+     * @throws DBALException
+     */
+    public function platform()
+    {
+        return $this->handleView(
+            $this->view(
+                ['platform' => $this->trackingService->getMostAttractedPlatform()],
+                Response::HTTP_OK
+            )
+        );
     }
 }
