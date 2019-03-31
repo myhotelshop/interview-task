@@ -52,8 +52,9 @@ api-test: ## API Testing
 .PHONY: clean
 clean: ## stops the containers if exists and remove all the dependencies
 	@docker-compose down --remove-orphans || true
-	@rm -rf data
-	@rm -rf vendor
+	@rm -rf data || true
+	@rm -rf vendor || true
+	@rm -rf var/cache/* || true
 
 .PHONY: help
 help:
