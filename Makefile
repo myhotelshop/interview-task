@@ -30,7 +30,7 @@ db-clean: ## Creates a new database and load the fixtures
 	@docker exec -it web_container ./bin/console doctrine:database:drop --force
 	@docker exec -it web_container ./bin/console doctrine:database:create
 	@docker exec -it web_container ./bin/console doctrine:migrations:migrate --no-interaction
-	@docker exec -it web_container ./bin/console doctrine:fixtures:load --no-interaction
+	@docker exec -it web_container ./bin/console doctrine:fixtures:load --no-interaction || true
 
 .PHONY: run
 run: ## run the application
@@ -39,7 +39,7 @@ run: ## run the application
 	# Initializing containers (30 Sec) ...
 	@sleep 30
 	@docker exec -it web_container ./bin/console doctrine:migrations:migrate --no-interaction
-	@docker exec -it web_container ./bin/console doctrine:fixtures:load --no-interaction
+	@docker exec -it web_container ./bin/console doctrine:fixtures:load --no-interaction || true
 
 .PHONY: clean
 clean: ## stops the containers if exists and remove all the dependencies
