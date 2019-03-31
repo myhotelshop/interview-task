@@ -7,6 +7,8 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\NonUniqueResultException;
 use PDO;
 use stdClass;
 
@@ -47,5 +49,21 @@ class PlatformRevenueRepository extends ServiceEntityRepository
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    /**
+     * @param int $platform
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function getRevenueForPlatform(int $platform)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('SUM(u.revenue) amount')
+            ->from(PlatformRevenue::class, 'u')
+            ->where('u.platform = :platform')
+            ->setParameter('platform', $platform);
+        return $qb->getQuery()->getSingleResult();
     }
 }

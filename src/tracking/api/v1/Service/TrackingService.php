@@ -12,6 +12,8 @@ use Doctrine\ORM\ORMException;
 use FOS\RestBundle\Exception\InvalidParameterException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\NonUniqueResultException;
 use DateTimeImmutable;
 
 /**
@@ -25,6 +27,11 @@ class TrackingService
      * @var string this message gets thrown if the customer is not registered in the tracking system
      */
     const MESSAGE_CUSTOMER_NOT_FOUND = 'Customer not found';
+
+    /**
+     * @var string this message gets thrown if the platform is not registered in the tracking system
+     */
+    const MESSAGE_PLATFORM_NOT_FOUND = 'Platform not found';
 
     /**
      * @var string this message gets thrown in case the tracking cookie is not provided
@@ -67,6 +74,17 @@ class TrackingService
     private function getCustomer(int $customerId)
     {
         return $this->customerRepository->find($customerId);
+    }
+
+    /**
+     * Check if the platform is a valid platform
+     * @param int $platform
+     */
+    public function checkPlatform(int $platform)
+    {
+        if (!$this->platformRepository->find($platform)) {
+            throw new NotFoundHttpException(self::MESSAGE_PLATFORM_NOT_FOUND);
+        }
     }
 
     /**
@@ -162,5 +180,18 @@ class TrackingService
     {
         $platform = $this->platformRevenueRepository->getMostAttractedPlatform();
         return $platform !== null ? $platform->name : null;
+    }
+
+    /**
+     * Return the revenue of a platform
+     * @param int $platform
+     * @return mixed
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function getRevenueByPlatform(int $platform): int
+    {
+        $revenue = $this->platformRevenueRepository->getRevenueForPlatform($platform);
+        return $revenue === null ? 0 : $revenue['amount'];
     }
 }

@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
 use Doctrine\DBAL\DBALException;
+use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\NonUniqueResultException;
 
 class TrackingController extends AbstractFOSRestController
 {
@@ -63,6 +65,29 @@ class TrackingController extends AbstractFOSRestController
         return $this->handleView(
             $this->view(
                 ['platform' => $this->trackingService->getMostAttractedPlatform()],
+                Response::HTTP_OK
+            )
+        );
+    }
+
+    /**
+     * Get the revenue of a platform
+     * @Rest\Get("/revenue")
+     * @Rest\QueryParam(name="platform", strict=true, requirements="\d+")
+     * @param ParamFetcher $paramFetcher
+     * @return Response
+     * @throws NoResultException
+     * @throws NonUniqueResultException
+     */
+    public function revenue(ParamFetcher $paramFetcher)
+    {
+        $platform = $paramFetcher->get('platform');
+
+        $this->trackingService->checkPlatform($platform);
+
+        return $this->handleView(
+            $this->view(
+                ['revenue' => $this->trackingService->getRevenueByPlatform((int) $platform)],
                 Response::HTTP_OK
             )
         );
