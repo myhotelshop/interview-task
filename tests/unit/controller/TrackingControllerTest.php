@@ -23,7 +23,7 @@ class TrackingControllerTest extends TestCase
     /**
      * @var int the request timeout in seconds
      */
-    const API_TIMEOUT = 5;
+    const API_TIMEOUT = 10;
 
     /**
      * @var Client
@@ -65,7 +65,19 @@ class TrackingControllerTest extends TestCase
     }
 
     /**
+     * Health checking
      * @test
+     */
+    public function apiIsHealthy()
+    {
+        $url = self::API_URL . '/health';
+        $response = $this->client->request('GET', $url);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     * @depends apiIsHealthy
      */
     public function platform()
     {
@@ -78,6 +90,7 @@ class TrackingControllerTest extends TestCase
 
     /**
      * @test
+     * @depends apiIsHealthy
      */
     public function revenue()
     {
@@ -114,6 +127,7 @@ class TrackingControllerTest extends TestCase
 
     /**
      * @test
+     * @depends apiIsHealthy
      */
     public function conversion()
     {
@@ -150,6 +164,7 @@ class TrackingControllerTest extends TestCase
 
     /**
      * @test
+     * @depends apiIsHealthy
      */
     public function track()
     {
@@ -198,6 +213,7 @@ class TrackingControllerTest extends TestCase
 
     /**
      * @test
+     * @depends apiIsHealthy
      * @dataProvider seedBookings
      */
     public function wrongTrack($booking)
