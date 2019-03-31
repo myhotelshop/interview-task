@@ -13,9 +13,21 @@ use FOS\RestBundle\Exception\InvalidParameterException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use DateTimeImmutable;
 
+/**
+ * Class TrackingService
+ * @package App\tracking\api\v1\Service
+ * @author Mohammed Yehia <firefoxegy@gmail.com>
+ */
 class TrackingService
 {
+    /**
+     * @var string this message gets thrown if the customer is not registered in the tracking system
+     */
     const MESSAGE_CUSTOMER_NOT_FOUND = 'Customer not found';
+
+    /**
+     * @var string this message gets thrown in case the tracking cookie is not provided
+     */
     const MESSAGE_COOKIE_NOT_FOUND = 'Tracking cookie not found';
     /**
      * @var CustomerRepository
@@ -30,6 +42,12 @@ class TrackingService
      */
     private $platformRevenueRepository;
 
+    /**
+     * TrackingService constructor.
+     * @param CustomerRepository $customerRepository
+     * @param PlatformRepository $platformRepository
+     * @param PlatformRevenueRepository $platformRevenueRepository
+     */
     public function __construct(
         CustomerRepository $customerRepository,
         PlatformRepository $platformRepository,
@@ -41,6 +59,7 @@ class TrackingService
     }
 
     /**
+     * Check if the customer is a valid customer
      * @param int $customerId
      * @return Customer
      */
@@ -49,6 +68,11 @@ class TrackingService
         return $this->customerRepository->find($customerId);
     }
 
+    /**
+     * Check if the request to te /track endpoint is valid
+     * @param int $customerId
+     * @param $cookie
+     */
     public function isValidRequest(int $customerId, $cookie)
     {
         if (!$cookie) {
@@ -61,6 +85,7 @@ class TrackingService
     }
 
     /**
+     * Distribute the revenue on the platforms according to their point of contacts
      * @param int $customerId
      * @param string $cookie
      * @param string $bookingReference
@@ -88,26 +113,29 @@ class TrackingService
                 if ($customerId !== $platformPlacement['customer_id']) {
                     continue;
                 }
+                /** @var Platform $platform */
                 $platform = $this->platformRepository->find($platformPlacement['platform']);
-                $revenueRecord = $this->createRevenue(
+                $this->createRevenue(
                     $customer,
                     $platform,
                     $bookingReference,
                     $revenueShare,
                     new DateTimeImmutable($platformPlacement['date_of_contact'])
                 );
-                $this->platformRevenueRepository->save($revenueRecord);
             }
         }
     }
 
     /**
+     * Creates a PlatformRevenue object
      * @param Customer $customer
      * @param Platform $platform
      * @param string $bookingReference
      * @param int $revenueShare
      * @param DateTimeImmutable $created
      * @return PlatformRevenue
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     private function createRevenue(
         Customer $customer,
@@ -116,12 +144,12 @@ class TrackingService
         int $revenueShare,
         DateTimeImmutable $created
     ): PlatformRevenue {
-        return new PlatformRevenue(
+        $this->platformRevenueRepository->save(new PlatformRevenue(
             $customer,
             $platform,
             $bookingReference,
             $revenueShare,
             $created
-        );
+        ));
     }
 }
