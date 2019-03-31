@@ -16,7 +16,7 @@ services:
             - 8088:80
     db:
         image: mysql
-        command: mysqld --default-authentication-plugin=mysql_native_password
+        command: mysqld --default-authentication-plugin=mysql_native_password --sql_mode=""
         volumes:
             - ./data:/var/lib/mysql
         container_name: db_container
