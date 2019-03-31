@@ -12,8 +12,16 @@ use Doctrine\ORM\NonUniqueResultException;
 use PDO;
 use stdClass;
 
+/**
+ * Class PlatformRevenueRepository
+ * @package App\tracking\api\v1\Repository
+ */
 class PlatformRevenueRepository extends ServiceEntityRepository
 {
+    /**
+     * PlatformRevenueRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, PlatformRevenue::class);
@@ -52,6 +60,7 @@ class PlatformRevenueRepository extends ServiceEntityRepository
     }
 
     /**
+     * Query the database for the revenue of a given platform
      * @param int $platform
      * @return mixed
      * @throws NoResultException

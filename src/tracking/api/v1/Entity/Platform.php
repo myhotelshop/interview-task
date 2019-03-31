@@ -62,6 +62,10 @@ class Platform
         $this->name = $name;
     }
 
+    /**
+     * Adds a customer to the customer's collection
+     * @param Customer $customer
+     */
     public function addCustomer(Customer $customer)
     {
         if (!$this->customers->contains($customer)) {

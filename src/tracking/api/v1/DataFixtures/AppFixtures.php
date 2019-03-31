@@ -10,6 +10,10 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Class AppFixtures
+ * @package App\tracking\api\v1\DataFixtures
+ */
 class AppFixtures extends Fixture
 {
 
@@ -32,6 +36,10 @@ class AppFixtures extends Fixture
         $this->platformsRepository = $em->getRepository(Platform::class);
     }
 
+    /**
+     * Loads the data into the database
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $this->seedCustomer($manager);
@@ -40,6 +48,10 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * A customer seeder
+     * @param ObjectManager $manager
+     */
     private function seedCustomer(ObjectManager $manager)
     {
         $customers = ['Advertiser1', 'Advertiser2'];
@@ -51,6 +63,10 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * A platforms seeder
+     * @param ObjectManager $manager
+     */
     private function seedPlatforms(ObjectManager $manager)
     {
         $platforms = ['trivago', 'TripAdvisor', 'Kayak'];
@@ -62,6 +78,10 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+    /**
+     * A placements seeder
+     * @param ObjectManager $manager
+     */
     private function seedPlacements(ObjectManager $manager)
     {
         $platforms = $this->platformsRepository->findAll();

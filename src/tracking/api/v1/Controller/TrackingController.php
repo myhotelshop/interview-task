@@ -12,6 +12,11 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
 
+/**
+ * Class TrackingController
+ * @package App\tracking\api\v1\Controller
+ * @author Mohammed Yehia <firefoxegy@gmail.com>
+ */
 class TrackingController extends AbstractFOSRestController
 {
 
