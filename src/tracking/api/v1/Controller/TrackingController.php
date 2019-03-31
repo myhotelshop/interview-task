@@ -30,10 +30,12 @@ class TrackingController extends AbstractFOSRestController
      * @Rest\Get("/track")
      * @Rest\QueryParam(name="revenue", strict=true, requirements="\d+")
      * @Rest\QueryParam(name="customerId", strict=true, requirements="\d+")
-     * @Rest\QueryParam(name="bookingReference", strict=true, requirements="\d+")
+     * @Rest\QueryParam(name="bookingReference", strict=true,
+     *     requirements="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
      * @param Request $request
      * @param ParamFetcher $paramFetcher
      * @return Response
+     * @throws \Exception
      */
     public function track(Request $request, ParamFetcher $paramFetcher)
     {
@@ -43,17 +45,11 @@ class TrackingController extends AbstractFOSRestController
 
         $cookie = $request->cookies->get('tracking');
 
+        $this->trackingService->isValidRequest($customerId, $cookie);
+        $this->trackingService->distributeRevenue($customerId, $cookie, $bookingReference, $revenue);
+
         return $this->handleView(
-            $this->view(
-                [
-                    'revenue' => $revenue,
-                    'customerId' => $customerId,
-                    'bookingReference' => $bookingReference,
-                    'tracking' => $cookie,
-                    'customers' => $this->trackingService->getCustomers()
-                ],
-                Response::HTTP_CREATED
-            )
+            $this->view(null, Response::HTTP_CREATED)
         );
     }
 }
