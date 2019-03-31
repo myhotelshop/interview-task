@@ -7,6 +7,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcher;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Exception;
 
 class TrackingController extends AbstractFOSRestController
 {
@@ -28,14 +29,14 @@ class TrackingController extends AbstractFOSRestController
     /**
      * Tracks the user conversion and distribute revenue on platforms
      * @Rest\Get("/track")
-     * @Rest\QueryParam(name="revenue", strict=true, requirements="\d+")
+     * @Rest\QueryParam(name="revenue", strict=true, requirements="^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$")
      * @Rest\QueryParam(name="customerId", strict=true, requirements="\d+")
      * @Rest\QueryParam(name="bookingReference", strict=true,
      *     requirements="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
      * @param Request $request
      * @param ParamFetcher $paramFetcher
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function track(Request $request, ParamFetcher $paramFetcher)
     {
@@ -48,8 +49,6 @@ class TrackingController extends AbstractFOSRestController
         $this->trackingService->isValidRequest($customerId, $cookie);
         $this->trackingService->distributeRevenue($customerId, $cookie, $bookingReference, $revenue);
 
-        return $this->handleView(
-            $this->view(null, Response::HTTP_CREATED)
-        );
+        return $this->handleView($this->view(null, Response::HTTP_OK));
     }
 }

@@ -133,7 +133,6 @@ class TrackingService
      * @param string $bookingReference
      * @param int $revenueShare
      * @param DateTimeImmutable $created
-     * @return PlatformRevenue
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -143,7 +142,7 @@ class TrackingService
         string $bookingReference,
         int $revenueShare,
         DateTimeImmutable $created
-    ): PlatformRevenue {
+    ): void {
         $this->platformRevenueRepository->save(new PlatformRevenue(
             $customer,
             $platform,
