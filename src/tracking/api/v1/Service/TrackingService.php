@@ -11,6 +11,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use FOS\RestBundle\Exception\InvalidParameterException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use DateTimeImmutable;
 
 class TrackingService
 {
@@ -93,7 +94,7 @@ class TrackingService
                     $platform,
                     $bookingReference,
                     $revenueShare,
-                    new \DateTimeImmutable($platformPlacement['date_of_contact'])
+                    new DateTimeImmutable($platformPlacement['date_of_contact'])
                 );
                 $this->platformRevenueRepository->save($revenueRecord);
             }
@@ -105,7 +106,7 @@ class TrackingService
      * @param Platform $platform
      * @param string $bookingReference
      * @param int $revenueShare
-     * @param \DateTimeImmutable $created
+     * @param DateTimeImmutable $created
      * @return PlatformRevenue
      */
     private function createRevenue(
@@ -113,14 +114,14 @@ class TrackingService
         Platform $platform,
         string $bookingReference,
         int $revenueShare,
-        \DateTimeImmutable $created
+        DateTimeImmutable $created
     ): PlatformRevenue {
-        $record = new PlatformRevenue();
-        $record->setBookingReference($bookingReference);
-        $record->setCreated($created);
-        $record->setCustomer($customer);
-        $record->setPlatform($platform);
-        $record->setRevenue($revenueShare);
-        return $record;
+        return new PlatformRevenue(
+            $customer,
+            $platform,
+            $bookingReference,
+            $revenueShare,
+            $created
+        );
     }
 }
