@@ -9,6 +9,8 @@ use App\tracking\api\v1\Repository\PlatformRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Finder\Finder;
+use Doctrine\DBAL\DBALException;
 
 /**
  * Class AppFixtures
@@ -45,6 +47,7 @@ class AppFixtures extends Fixture
         $this->seedCustomer($manager);
         $this->seedPlatforms($manager);
         $this->seedPlacements($manager);
+        $this->seedRevenue($manager);
         $manager->flush();
     }
 
@@ -94,5 +97,25 @@ class AppFixtures extends Fixture
             }
         }
         $manager->flush();
+    }
+
+    /**
+     * A seeder for the platform revenue
+     * @param EntityManagerInterface $entityManager
+     * @throws DBALException
+     */
+    private function seedRevenue(EntityManagerInterface $entityManager)
+    {
+        $finder = new Finder();
+        $finder->in(__DIR__ . '/sql');
+        $finder->name('*.sql');
+        $finder->files();
+        $finder->sortByName();
+        $em = $entityManager->getConnection();
+        foreach ($finder as $file) {
+            print "Importing: {$file->getBasename()} " . PHP_EOL;
+            $sql = $file->getContents();
+            $em->exec($sql);
+        }
     }
 }
