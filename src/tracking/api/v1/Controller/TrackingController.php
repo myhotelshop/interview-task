@@ -97,4 +97,26 @@ class TrackingController extends AbstractFOSRestController
             )
         );
     }
+
+    /**
+     * Get the number of conversion for a given platform
+     * @Rest\Get("/conversion")
+     * @Rest\QueryParam(name="platform", strict=true, requirements="\d+")
+     * @param ParamFetcher $paramFetcher
+     * @return Response
+     * @throws DBALException
+     */
+    public function conversion(ParamFetcher $paramFetcher)
+    {
+        $platform = $paramFetcher->get('platform');
+
+        $this->trackingService->checkPlatform($platform);
+
+        return $this->handleView(
+            $this->view(
+                ['conversion' => $this->trackingService->getConversionsOfPlatform((int) $platform)],
+                Response::HTTP_OK
+            )
+        );
+    }
 }

@@ -194,4 +194,16 @@ class TrackingService
         $revenue = $this->platformRevenueRepository->getRevenueForPlatform($platform);
         return $revenue === null ? 0 : $revenue['amount'];
     }
+
+    /**
+     * Return the number of conversions for a given platform
+     * @param int $platform
+     * @return int
+     * @throws DBALException
+     */
+    public function getConversionsOfPlatform(int $platform): int
+    {
+        $conversion = $this->platformRevenueRepository->getConversionOfPlatform($platform);
+        return $conversion ? (int) $conversion->conversion : 0;
+    }
 }

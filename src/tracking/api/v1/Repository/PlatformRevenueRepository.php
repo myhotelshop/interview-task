@@ -3,6 +3,7 @@ namespace App\tracking\api\v1\Repository;
 
 use App\tracking\api\v1\Entity\PlatformRevenue;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -74,5 +75,32 @@ class PlatformRevenueRepository extends ServiceEntityRepository
             ->where('u.platform = :platform')
             ->setParameter('platform', $platform);
         return $qb->getQuery()->getSingleResult();
+    }
+
+    /**
+     * Query the database for the number of conversions for a given platform
+     * @param int $platform
+     * @return stdClass|bool
+     * @throws DBALException
+     */
+    public function getConversionOfPlatform(int $platform)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = 'SELECT p.platform_id, COUNT(p.platform_id) conversion
+                FROM platform_revenue p
+                INNER JOIN (
+                    SELECT booking_reference, MAX(created) conversionDate
+                    FROM platform_revenue
+                    GROUP BY booking_reference
+                ) t1
+                ON t1.booking_reference = p.booking_reference AND t1.conversionDate = p.created
+                WHERE p.platform_id = :platform
+                GROUP BY p.platform_id 
+                ORDER BY MAX(conversion) DESC 
+                LIMIT 1';
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('platform', $platform, ParameterType::INTEGER);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 }
