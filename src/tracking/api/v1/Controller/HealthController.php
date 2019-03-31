@@ -6,7 +6,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class TrackingController
+ * Class HealthController
  * @package App\tracking\api\v1\Controller
  * @author Mohammed Yehia <firefoxegy@gmail.com>
  */
