@@ -1,9 +1,9 @@
 <?php
 namespace App\tracking\api\v1\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use DateTimeImmutable;
 
 /**
  * @ORM\Entity(repositoryClass="App\tracking\api\v1\Repository\PlatformRepository")
@@ -43,6 +43,20 @@ class PlatformRevenue
      * @ORM\Column(type="guid")
      */
     private $bookingReference;
+
+    public function __construct(
+        Customer $customer,
+        Platform $platform,
+        string $bookingReference,
+        int $revenueShare,
+        DateTimeImmutable $created
+    ) {
+        $this->setBookingReference($bookingReference);
+        $this->setCreated($created);
+        $this->setCustomer($customer);
+        $this->setPlatform($platform);
+        $this->setRevenue($revenueShare);
+    }
 
     /**
      * @return int|null
@@ -101,17 +115,17 @@ class PlatformRevenue
     }
 
     /**
-     * @return mixed
+     * @return DateTimeImmutable
      */
-    public function getCreated()
+    public function getCreated(): DateTimeImmutable
     {
         return $this->created;
     }
 
     /**
-     * @param mixed $created
+     * @param DateTimeImmutable $created
      */
-    public function setCreated($created): void
+    public function setCreated(DateTimeImmutable $created): void
     {
         $this->created = $created;
     }
