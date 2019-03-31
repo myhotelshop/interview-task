@@ -105,7 +105,7 @@ class TrackingControllerTest extends TestCase
             ]
         );
         $content = json_decode($response->getBody()->getContents(), true);
-        $this->assertEquals(12, $content['revenue']);
+        $this->assertEquals(10, $content['revenue']);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
         try {
