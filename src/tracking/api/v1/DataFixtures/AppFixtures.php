@@ -41,6 +41,7 @@ class AppFixtures extends Fixture
     /**
      * Loads the data into the database
      * @param ObjectManager $manager
+     * @throws DBALException
      */
     public function load(ObjectManager $manager)
     {
