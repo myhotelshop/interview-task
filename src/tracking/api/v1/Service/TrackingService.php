@@ -69,7 +69,7 @@ class TrackingService
     /**
      * Check if the customer is a valid customer
      * @param int $customerId
-     * @return Customer
+     * @return object
      */
     private function getCustomer(int $customerId)
     {
@@ -79,12 +79,14 @@ class TrackingService
     /**
      * Check if the platform is a valid platform
      * @param int $platform
+     * @return bool
      */
     public function checkPlatform(int $platform)
     {
         if (!$this->platformRepository->find($platform)) {
             throw new NotFoundHttpException(self::MESSAGE_PLATFORM_NOT_FOUND);
         }
+        return true;
     }
 
     /**
