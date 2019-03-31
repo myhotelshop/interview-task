@@ -6,7 +6,7 @@ COMPOSER_DOCKER_IMAGE=composer
 COMPOSER=$(DOCKER) -v ${PWD}:/app $(COMPOSER_DOCKER_IMAGE)
 
 .PHONY: install
-install: ## Install dependencies
+install: ## Install project dependencies
 	@$(COMPOSER) composer install && composer dump-autoload
 
 .PHONY: web-shell
@@ -25,13 +25,27 @@ code-chk: ## Check the PHP code according to PSR2
 safe-chk: ## Check if dependencies are safe
 	@docker exec -it web_container ./bin/console security:check
 
+.PHONY: db-clean
+db-clean: ## Creates a new database and load the fixtures
+	@docker exec -it web_container ./bin/console doctrine:database:drop --force
+	@docker exec -it web_container ./bin/console doctrine:database:create
+	@docker exec -it web_container ./bin/console doctrine:migrations:migrate --no-interaction
+	@docker exec -it web_container ./bin/console doctrine:fixtures:load --no-interaction
+
 .PHONY: run
 run: ## run the application
+	@mkdir -p data
 	@docker-compose up -d
+	# Initializing containers (30 Sec) ...
+	@sleep 30
+	@docker exec -it web_container ./bin/console doctrine:migrations:migrate --no-interaction
+	@docker exec -it web_container ./bin/console doctrine:fixtures:load --no-interaction
 
-.PHONY: kill
-kill: ## stops the web container and deletes it
-	@docker-compose down --remove-orphans
+.PHONY: clean
+clean: ## stops the containers if exists and remove all the dependencies
+	@docker-compose down --remove-orphans || true
+	@rm -rf data
+	@rm -rf vendor
 
 .PHONY: help
 help:
