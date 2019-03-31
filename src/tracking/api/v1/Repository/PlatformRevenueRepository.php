@@ -96,8 +96,7 @@ class PlatformRevenueRepository extends ServiceEntityRepository
                 ON t1.booking_reference = p.booking_reference AND t1.conversionDate = p.created
                 WHERE p.platform_id = :platform
                 GROUP BY p.platform_id 
-                ORDER BY MAX(conversion) DESC 
-                LIMIT 1';
+                ORDER BY MAX(conversion) DESC';
         $stmt = $conn->prepare($sql);
         $stmt->bindValue('platform', $platform, ParameterType::INTEGER);
         $stmt->execute();
