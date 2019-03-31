@@ -13,7 +13,6 @@ use FOS\RestBundle\Exception\InvalidParameterException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\DBAL\DBALException;
 use DateTimeImmutable;
-use stdClass;
 
 /**
  * Class TrackingService
@@ -155,7 +154,7 @@ class TrackingService
     }
 
     /**
-     * Return the
+     * Return the platform that most attracts customers
      * @return string|null
      * @throws DBALException
      */
