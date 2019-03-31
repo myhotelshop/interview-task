@@ -11,8 +11,18 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\DBAL\DBALException;
 
+/**
+ * Class TrackingServiceTest
+ * @package App\Tests\unit\service
+ */
 class TrackingServiceTest extends KernelTestCase
 {
+    /**
+     * Creates a TrackingService mock for testing purposes
+     * @param null $methodName
+     * @param null $expected
+     * @return TrackingService
+     */
     private function generateMocks($methodName = null, $expected = null)
     {
         $customerRepository = $this->createMock(CustomerRepository::class);
@@ -28,16 +38,20 @@ class TrackingServiceTest extends KernelTestCase
         );
     }
 
-    public function testCheckPlatform()
+    /**
+     * @test
+     */
+    public function checkPlatform()
     {
         $this->expectException(NotFoundHttpException::class);
         $this->generateMocks()->checkPlatform(1000);
     }
 
     /**
+     * @test
      * @throws DBALException
      */
-    public function testGetConversionsOfPlatform()
+    public function getConversionsOfPlatform()
     {
         $this->assertEquals(
             4,
@@ -49,10 +63,11 @@ class TrackingServiceTest extends KernelTestCase
     }
 
     /**
+     * @test
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function testGetRevenueByPlatform()
+    public function getRevenueByPlatform()
     {
         $this->assertEquals(
             8,
@@ -64,9 +79,10 @@ class TrackingServiceTest extends KernelTestCase
     }
 
     /**
+     * @test
      * @throws DBALException
      */
-    public function testGetMostAttractedPlatform()
+    public function getMostAttractedPlatform()
     {
         $this->assertEquals(
             'TripAdvisor',
