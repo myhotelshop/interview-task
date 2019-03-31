@@ -15,7 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TrackingControllerTest extends TestCase
 {
+    /**
+     * @var string The API URL
+     */
     const API_URL = 'http://localhost:8088/api/v1';
+
+    /**
+     * @var int the request timeout in seconds
+     */
     const API_TIMEOUT = 5;
 
     /**
