@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "05693c46-5ec0-40f4-86d6-43dbdf0e6a97",
+		"name": "MyHotelShop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TrackConversion",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8088/api/v1/track?revenue=4&customerId=1&bookingReference=bdc8092d-3d93-41c6-8591-e21541b41fa4",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"track"
+					],
+					"query": [
+						{
+							"key": "revenue",
+							"value": "4"
+						},
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookingReference",
+							"value": "bdc8092d-3d93-41c6-8591-e21541b41fa4"
+						}
+					]
+				},
+				"description": "Track the user conversion for advertiser and distribute the revenue on platforms"
+			},
+			"response": []
+		},
+		{
+			"name": "Most Attracted Platform",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8088/api/v1/track?revenue=4&customerId=1&bookingReference=bdc8092d-3d93-41c6-8591-e21541b41fa4",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"track"
+					],
+					"query": [
+						{
+							"key": "revenue",
+							"value": "4"
+						},
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookingReference",
+							"value": "bdc8092d-3d93-41c6-8591-e21541b41fa4"
+						}
+					]
+				},
+				"description": "Get the name of the platform that first attracts the customers"
+			},
+			"response": []
+		},
+		{
+			"name": "Revenue by platform",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8088/api/v1/track?revenue=4&customerId=1&bookingReference=bdc8092d-3d93-41c6-8591-e21541b41fa4",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"track"
+					],
+					"query": [
+						{
+							"key": "revenue",
+							"value": "4"
+						},
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookingReference",
+							"value": "bdc8092d-3d93-41c6-8591-e21541b41fa4"
+						}
+					]
+				},
+				"description": "Get the revenue of a given platform"
+			},
+			"response": []
+		},
+		{
+			"name": "Conversion by platform Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:8088/api/v1/track?revenue=4&customerId=1&bookingReference=bdc8092d-3d93-41c6-8591-e21541b41fa4",
+					"host": [
+						"localhost"
+					],
+					"port": "8088",
+					"path": [
+						"api",
+						"v1",
+						"track"
+					],
+					"query": [
+						{
+							"key": "revenue",
+							"value": "4"
+						},
+						{
+							"key": "customerId",
+							"value": "1"
+						},
+						{
+							"key": "bookingReference",
+							"value": "bdc8092d-3d93-41c6-8591-e21541b41fa4"
+						}
+					]
+				},
+				"description": "Get the number of conversions for a given platform"
+			},
+			"response": []
+		}
+	]
+}
