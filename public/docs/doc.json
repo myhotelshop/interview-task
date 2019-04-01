@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   description: "This is the documentation of the tracking api of myhotelshop."
   version: "1.0.0"
-  title: "MyHotelShop Tracking"
+  title: "MyHotelShop Conversion Tracking API"
   contact:
     email: "firefoxegy@gmail.com"
 host: "localhost:8088"
