@@ -3,6 +3,7 @@ namespace App\tracking\api\v1\Controller;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -15,6 +16,7 @@ class HealthController extends AbstractFOSRestController
     /**
      * Tracks the user conversion and distribute revenue on platforms
      * @Rest\Get("/health")
+     * @IsGranted("ROLE_USER")
      * @return Response
      */
     public function index()

@@ -5,15 +5,16 @@ use App\tracking\api\v1\Service\TrackingService;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\CookieJar;
 use GuzzleHttp\Exception\ClientException;
-use PHPUnit\Framework\TestCase;
+use GuzzleHttp\Psr7\Request;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class TrackingControllerTest
  * @package App\Tests\unit\controller
  */
-class TrackingControllerTest extends TestCase
+class TrackingControllerTest extends KernelTestCase
 {
     /**
      * @var string The API URL
@@ -29,6 +30,11 @@ class TrackingControllerTest extends TestCase
      * @var Client
      */
     private $client;
+
+    /**
+     * @var string
+     */
+    private $token;
 
     /**
      * Booking seeder
@@ -62,6 +68,9 @@ class TrackingControllerTest extends TestCase
             'timeout' => self::API_TIMEOUT
         ];
         $this->client = new Client($config);
+        self::bootKernel();
+        $container = self::$kernel->getContainer();
+        $this->token = $container->get('lexik_jwt_authentication.encoder')->encode(['username' => 'mohammed']);
     }
 
     /**
@@ -71,7 +80,11 @@ class TrackingControllerTest extends TestCase
     public function apiIsHealthy()
     {
         $url = self::API_URL . '/health';
-        $response = $this->client->request('GET', $url);
+        $response = $this->client->request('GET', $url, [
+            'headers' => [
+                'Authorization' => ('Bearer ' . $this->token)
+            ]
+        ]);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
@@ -82,7 +95,11 @@ class TrackingControllerTest extends TestCase
     public function platform()
     {
         $url = self::API_URL . '/platform';
-        $response = $this->client->request('GET', $url);
+        $response = $this->client->request('GET', $url, [
+            'headers' => [
+                'Authorization' => ('Bearer ' . $this->token)
+            ]
+        ]);
         $content = json_decode($response->getBody()->getContents(), true);
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
         $this->assertEquals('TripAdvisor', $content['platform']);
@@ -101,6 +118,9 @@ class TrackingControllerTest extends TestCase
             [
                 'query' => [
                     'platform' => 3
+                ],
+                'headers' => [
+                    'Authorization' => ('Bearer ' . $this->token)
                 ]
             ]
         );
@@ -115,6 +135,9 @@ class TrackingControllerTest extends TestCase
                 [
                     'query' => [
                         'platform' => 4
+                    ],
+                    'headers' => [
+                        'Authorization' => ('Bearer ' . $this->token)
                     ]
                 ]
             );
@@ -138,6 +161,9 @@ class TrackingControllerTest extends TestCase
             [
                 'query' => [
                     'platform' => 1
+                ],
+                'headers' => [
+                    'Authorization' => ('Bearer ' . $this->token)
                 ]
             ]
         );
@@ -152,6 +178,9 @@ class TrackingControllerTest extends TestCase
                 [
                     'query' => [
                         'platform' => 4
+                    ],
+                    'headers' => [
+                        'Authorization' => ('Bearer ' . $this->token)
                     ]
                 ]
             );
@@ -191,7 +220,10 @@ class TrackingControllerTest extends TestCase
             $url,
             [
                 'cookies' => $cookie,
-                'query' => $booking
+                'query' => $booking,
+                'headers' => [
+                    'Authorization' => ('Bearer ' . $this->token)
+                ]
             ]
         );
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
@@ -201,7 +233,10 @@ class TrackingControllerTest extends TestCase
                 'GET',
                 $url,
                 [
-                    'query' => $booking
+                    'query' => $booking,
+                    'headers' => [
+                        'Authorization' => ('Bearer ' . $this->token)
+                    ]
                 ]
             );
         } catch (ClientException $e) {
@@ -224,7 +259,10 @@ class TrackingControllerTest extends TestCase
                 'GET',
                 $url,
                 [
-                    'query' => $booking
+                    'query' => $booking,
+                    'headers' => [
+                        'Authorization' => ('Bearer ' . $this->token)
+                    ]
                 ]
             );
         } catch (ClientException $e) {

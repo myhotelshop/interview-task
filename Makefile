@@ -56,7 +56,10 @@ clean: ## stops the containers if exists and remove all the dependencies
 	@rm -rf vendor || true
 	@rm -rf var/cache/* || true
 	@rm -rf bin/.phpunit || true
-	@rm -rf bin/phpunit || true
+
+.PHONY: api-docs
+api-docs: ## Show the API documentation
+	@open http://localhost:8088/docs/
 
 .PHONY: help
 help:

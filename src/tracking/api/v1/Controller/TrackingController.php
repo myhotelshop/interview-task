@@ -5,6 +5,7 @@ use App\tracking\api\v1\Service\TrackingService;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Request\ParamFetcher;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Exception;
@@ -43,6 +44,7 @@ class TrackingController extends AbstractFOSRestController
      *     requirements="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
      * @param Request $request
      * @param ParamFetcher $paramFetcher
+     * @IsGranted("ROLE_USER")
      * @return Response
      * @throws Exception
      */
@@ -63,6 +65,7 @@ class TrackingController extends AbstractFOSRestController
     /**
      * Get the platform that most attracts customers first
      * @Rest\Get("/platform")
+     * @IsGranted("ROLE_USER")
      * @throws DBALException
      */
     public function platform()
@@ -80,6 +83,7 @@ class TrackingController extends AbstractFOSRestController
      * @Rest\Get("/revenue")
      * @Rest\QueryParam(name="platform", strict=true, requirements="\d+")
      * @param ParamFetcher $paramFetcher
+     * @IsGranted("ROLE_USER")
      * @return Response
      * @throws NoResultException
      * @throws NonUniqueResultException
@@ -103,6 +107,7 @@ class TrackingController extends AbstractFOSRestController
      * @Rest\Get("/conversion")
      * @Rest\QueryParam(name="platform", strict=true, requirements="\d+")
      * @param ParamFetcher $paramFetcher
+     * @IsGranted("ROLE_USER")
      * @return Response
      * @throws DBALException
      */
