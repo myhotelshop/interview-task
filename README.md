@@ -28,3 +28,17 @@ The **Makefile** will make it easy for you to go through the whole scenarios.
 - If you want to clean the project and start over you just have to run ```make clean install run```
 - To view the API documentation please run the command ```make api-docs``` or browser to http://localhost:8088/docs/
 - For more command please type ```make``` or ```make help```
+
+To execute requests on Swagger documentation you need first to authorize yourself by acquiring a JWT token using the /auth endpoint 
+in the Swagger docs and copy the value of the token then press on Authorize and place the value and authorize. You can now execute requests 
+to different endpoints.
+
+The seeded platform IDS are:
+- trivago (1)
+- TripAdvisor (2)
+- Kayak (3)
+
+The seefed customer IDS are:
+- Advertiser1 (1)
+- Advertiser2 (2)
+
