@@ -14,6 +14,8 @@ tags:
   description: "Track user conversion and distribute revenue"
 - name: "platform"
   description: "Shows the platform that most attracts customers"
+- name: "revenue"
+  description: "Get the total revenue of a given platform"
 schemes:
 - "http"
 paths:
@@ -22,13 +24,11 @@ paths:
       tags:
         - "auth"
       summary: "Get a valid JWT token"
-      description: ""
+      description: "This endpoint is used to generate a valid JWT token that can be used for testing purposes"
       operationId: "platform"
       consumes:
         - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       responses:
         200:
@@ -42,18 +42,43 @@ paths:
       operationId: "track"
       consumes:
         - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       parameters:
-        - in: "customerId"
+        - in: query
           name: "customerId"
-          description: "The customer id that owns the conversion"
+          description: "The customer id"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: query
+          name: "revenue"
+          description: "The revenue"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: query
+          name: "bookingReference"
+          description: "The booking reference"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: cookie
+          name: tracking
+          description: "The conversion cookie"
+          schema:
+            type: string
+            default: '{"placements": [{"platform": 1, "customer_id": 2, "date_of_contact": "2018-01-01 14:00:00"}, {"platform": 2, "customer_id": 2, "date_of_contact": "2018-01-03 14:00:00"}, {"platform": 3, "customer_id": 2, "date_of_contact": "2018-01-05 14:00:00"}]}'
           required: true
       responses:
         200:
           description: "Conversion tracked successfully"
+        400:
+          description: "Invalid input"
+        401:
+          description: "JWT token not found"
+        404:
+          description: "Tracking cookie not found"
       security:
         - Bearer: []
   /platform:
@@ -65,13 +90,69 @@ paths:
       operationId: "platform"
       consumes:
         - "application/json"
-        - "application/xml"
       produces:
-        - "application/xml"
         - "application/json"
       responses:
         200:
           description: "The name of the platform that most atrracts customers"
+      security:
+        - Bearer: []
+  /revenue:
+    get:
+      tags:
+        - "revenue"
+      summary: "Get the total revenue of a given platform"
+      description: ""
+      operationId: "revenue"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: "platform"
+          description: "The platform id"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "The total revenue"
+        400:
+          description: "Invalid input"
+        401:
+          description: "JWT token not found"
+        404:
+          description: "Platform not found"
+      security:
+        - Bearer: []
+  /conversion:
+    get:
+      tags:
+        - "conversion"
+      summary: "Get the total number of conversions of a given platform"
+      description: ""
+      operationId: "conversion"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: query
+          name: "platform"
+          description: "The platform id"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "The total number of conversions"
+        400:
+          description: "Invalid input"
+        401:
+          description: "JWT token not found"
+        404:
+          description: "Platform not found"
       security:
         - Bearer: []
 securityDefinitions:
