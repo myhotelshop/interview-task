@@ -1,0 +1,74 @@
+swagger: "2.0"
+info:
+  description: "This is the documentation of the tracking api of myhotelshop."
+  version: "1.0.0"
+  title: "MyHotelShop Tracking"
+  contact:
+    email: "firefoxegy@gmail.com"
+host: "localhost:8088"
+basePath: "/api/v1"
+tags:
+- name: "track"
+  description: "Track user conversion and distribute revenue"
+- name: "platform"
+  description: "Shows the platform that most attracts customers"
+schemes:
+- "http"
+paths:
+  /track:
+    get:
+      tags:
+      - "track"
+      summary: "Distribute conversion on platforms"
+      description: ""
+      operationId: "track"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "customerId"
+        name: "customerId"
+        description: "The customer id that owns the conversion"
+        required: true
+      responses:
+        200:
+          description: "Conversion tracked successfully"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+  /platform:
+    get:
+      tags:
+      - "platform"
+      summary: "Shows the platform that most attracts customers"
+      description: ""
+      operationId: "platform"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: "The name of the platform that most atrracts customers"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
