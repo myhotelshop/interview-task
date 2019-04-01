@@ -42,5 +42,6 @@ The seefed customer IDS are:
 - Advertiser1 (1)
 - Advertiser2 (2)
 
+The ERD (Entity Relationship Diagram of the Database is included)
 
 
