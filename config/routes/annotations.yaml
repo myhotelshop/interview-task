@@ -1,0 +1,4 @@
+controllers:
+    resource: ../../src/tracking/api/v1/Controller
+    type: annotation
+    prefix: /api/v1
