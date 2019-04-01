@@ -55,6 +55,8 @@ clean: ## stops the containers if exists and remove all the dependencies
 	@rm -rf data || true
 	@rm -rf vendor || true
 	@rm -rf var/cache/* || true
+	@rm -rf bin/.phpunit || true
+	@rm -rf bin/phpunit || true
 
 .PHONY: help
 help:
