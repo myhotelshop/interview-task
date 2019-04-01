@@ -5,7 +5,7 @@ use App\tracking\api\v1\Repository\CustomerRepository;
 use App\tracking\api\v1\Repository\PlatformRepository;
 use App\tracking\api\v1\Repository\PlatformRevenueRepository;
 use App\tracking\api\v1\Service\TrackingService;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\NonUniqueResultException;
@@ -15,7 +15,7 @@ use Doctrine\DBAL\DBALException;
  * Class TrackingServiceTest
  * @package App\Tests\unit\service
  */
-class TrackingServiceTest extends KernelTestCase
+class TrackingServiceTest extends TestCase
 {
     /**
      * Creates a TrackingService mock for testing purposes
