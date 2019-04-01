@@ -43,5 +43,5 @@ The seefed customer IDS are:
 - Advertiser2 (2)
 
 The ERD (Entity Relationship Diagram of the Database is included)
-
+![github-small](https://github.com/engmohammedyehia/interview-task/blob/master/erm.png)
 
