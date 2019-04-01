@@ -54,6 +54,8 @@ class TrackingController extends AbstractFOSRestController
         $customerId = $paramFetcher->get('customerId');
         $bookingReference = $paramFetcher->get('bookingReference');
 
+        $revenue = round($revenue);
+
         $cookie = $request->cookies->get('tracking');
 
         $this->trackingService->isValidRequest($customerId, $cookie);
