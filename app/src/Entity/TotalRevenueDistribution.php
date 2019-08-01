@@ -48,6 +48,8 @@ class TotalRevenueDistribution
     public function setPlatform(?string $platform): self
     {
         $this->platform = $platform;
+
+        return $this;
     }
 
     /**
@@ -66,6 +68,8 @@ class TotalRevenueDistribution
     public function setAmount(?int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
 

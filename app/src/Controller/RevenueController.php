@@ -2,16 +2,14 @@
 
 namespace App\Controller;
 
-use App\Model\Scope\ScopeModel;
 use Swagger\Annotations as SWG;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
-class RevenueController extends AbstractController
+class RevenueController extends AbstractApiController
 {
     /**
      * Get Revenue distributions
@@ -36,16 +34,37 @@ class RevenueController extends AbstractController
      *     ref="#/parameters/conversionId"
      * )
      * @SWG\Tag(name="Revenues")
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function getRevenuesDistributions(): JsonResponse
+    public function getRevenuesDistributions(Request $request): JsonResponse
     {
-        $distributions = null;
+        $requestParams = $request->query->all();
 
-        if (!$distributions) {
-            throw new HttpException(Response::HTTP_NOT_IMPLEMENTED);
+        $platform = $requestParams[self::REQUEST_PARAM_CONVERSION_ID] ?? null;
+
+        $filteredParams = [];
+
+        if ($platform) {
+            $filteredParams = [
+                self::REQUEST_PARAM_PLATFORM => $requestParams[self::REQUEST_PARAM_PLATFORM]
+            ];
         }
 
-        return $this->json($distributions);
+        //Quick approach to fetch counts, even though not ideal
+        $total = $this->conversionModel->countBy($requestParams);
+
+        $resource = new CollectionRepresentation($this->revenueModel->getDistributionsBy($filteredParams));
+        $resource = new OffsetRepresentation(
+            $resource,
+            'app_conversion_getconversions',
+            $requestParams,
+            0,
+            50,
+            $total
+        );
+
+        return $this->respondOk($resource);
     }
 
     /**
@@ -107,14 +126,15 @@ class RevenueController extends AbstractController
      * )
      * @SWG\Tag(name="Revenues")
      */
-    public function getRevenuesDistributionsTotalSumByPlatform(): JsonResponse
+    public function getRevenuesDistributionsTotalSumByPlatform(Request $request): JsonResponse
     {
-        $totalSum = null;
+        dump($request);
+        $totalDistribution = $this->revenueModel->getTotalRevenueDistributionByPlatform('tripadvisor');
 
-        if (!$totalSum) {
-            throw new HttpException(Response::HTTP_NOT_IMPLEMENTED);
+        if (!$totalDistribution) {
+            return new JsonResponse("", Response::HTTP_NOT_FOUND, []);
         }
 
-        return $this->json($totalSum);
+        return $this->respondOk($totalDistribution);
     }
 }

@@ -10,6 +10,7 @@ use Hateoas\HateoasBuilder;
 use Hateoas\UrlGenerator\SymfonyUrlGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AbstractApiController extends AbstractController
@@ -18,6 +19,7 @@ class AbstractApiController extends AbstractController
     protected const REQUEST_PARAM_REVENUE = 'revenue';
     protected const REQUEST_PARAM_BOOKING_NUMBER = 'bookingNumber';
     protected const REQUEST_PARAM_PLATFORM = 'platform';
+    protected const REQUEST_PARAM_CONVERSION_ID = 'conversionId';
 
     /**
      * @var Hateoas
@@ -60,10 +62,10 @@ class AbstractApiController extends AbstractController
      *
      * @return JsonResponse
      */
-    protected function respond($resource): JsonResponse
+    protected function respondOk($resource): JsonResponse
     {
         $json = $this->hateoas->serialize($resource, 'json');
 
-        return new JsonResponse($json, 200, [], true);
+        return new JsonResponse($json, Response::HTTP_OK, [], true);
     }
 }

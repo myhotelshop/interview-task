@@ -4,7 +4,9 @@
 namespace App\Model;
 
 
+use App\Entity\Conversion;
 use App\Entity\RevenueDistribution;
+use App\Entity\TotalRevenueDistribution;
 use App\Entity\VisitCollection;
 
 interface RevenueModelInterface
@@ -16,9 +18,15 @@ interface RevenueModelInterface
     public function getDistributionsBy(array $params): array;
 
     /**
-     * @param int $amount
+     * @param Conversion $conversion
      * @param VisitCollection $platformVisits
      * @return RevenueDistribution[]
      */
-    public function distribute(int $amount, VisitCollection $platformVisits): array;
+    public function distribute(Conversion $conversion, VisitCollection $platformVisits): array;
+
+    /**
+     * @param string $platform
+     * @return TotalRevenueDistribution|null
+     */
+    public function getTotalRevenueDistributionByPlatform(string $platform): ?TotalRevenueDistribution;
 }

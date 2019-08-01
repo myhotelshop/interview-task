@@ -134,7 +134,7 @@ class ConversionController extends AbstractApiController
             $total
         );
 
-        return $this->respond($resource);
+        return $this->respondOk($resource);
     }
 
     /**

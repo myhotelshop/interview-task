@@ -12,22 +12,25 @@ class ConversionFixture extends Fixture
     public function load(ObjectManager $manager)
     {
 
+        /**
+         * Conversion 1
+         */
         $conversion = new Conversion();
         $conversion->setBookingNumber("123_asdft");
         $conversion->setConversationDate(new \DateTime('now'));
         $conversion->setCustomerId(123);
-        $conversion->setPlatform("trivago");
+        $conversion->setPlatform("test_trivago");
         $conversion->setRevenue(250);
 
         $distribution = new RevenueDistribution();
-        $distribution->setPlatform('trivago');
+        $distribution->setPlatform('test_trivago');
         $distribution->setAmount(100);
 
         $manager->persist($distribution);
         $conversion->addRevenueDistribution($distribution);
 
         $distribution = new RevenueDistribution();
-        $distribution->setPlatform('tripadvisor');
+        $distribution->setPlatform('test_tripadvisor');
         $distribution->setAmount(150);
 
         $manager->persist($distribution);
@@ -35,15 +38,18 @@ class ConversionFixture extends Fixture
 
         $manager->persist($conversion);
 
+        /**
+         * Conversion 2
+         */
         $conversion = new Conversion();
         $conversion->setBookingNumber("12_asaqsaddft");
         $conversion->setConversationDate(new \DateTime('now'));
         $conversion->setCustomerId(12);
-        $conversion->setPlatform("tripadvisor");
+        $conversion->setPlatform("test_tripadvisor");
         $conversion->setRevenue(150);
 
         $distribution = new RevenueDistribution();
-        $distribution->setPlatform('tripadvisor');
+        $distribution->setPlatform('test_tripadvisor');
         $distribution->setAmount(150);
 
         $conversion->addRevenueDistribution($distribution);
@@ -51,11 +57,14 @@ class ConversionFixture extends Fixture
         $manager->persist($distribution);
         $manager->persist($conversion);
 
+        /**
+         * Conversion 3
+         */
         $conversion = new Conversion();
         $conversion->setBookingNumber("12_asdftdd");
         $conversion->setConversationDate((new \DateTime('now'))->modify('-3 day'));
         $conversion->setCustomerId(12);
-        $conversion->setPlatform("trivago");
+        $conversion->setPlatform("test_trivago");
         $conversion->setRevenue(250);
 
         $manager->persist($conversion);

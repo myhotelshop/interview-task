@@ -23,6 +23,11 @@ Run command `docker-compose down --remove-orphans`
 
 ## Run tests:
 
+**Important**
+For convenience reasons, it is necessary to follow the steps in "run application" in order to run the tests
+
+run command `docker-compose up tests```
+
 
 # Documentation
 
