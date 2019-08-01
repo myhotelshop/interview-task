@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Hateoas\Representation\CollectionRepresentation;
+use Hateoas\Representation\OffsetRepresentation;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,23 +43,23 @@ class RevenueController extends AbstractApiController
     {
         $requestParams = $request->query->all();
 
-        $platform = $requestParams[self::REQUEST_PARAM_CONVERSION_ID] ?? null;
+        $conversionId = $requestParams[self::REQUEST_PARAM_CONVERSION_ID] ?? null;
 
         $filteredParams = [];
 
-        if ($platform) {
+        if ($conversionId) {
             $filteredParams = [
-                self::REQUEST_PARAM_PLATFORM => $requestParams[self::REQUEST_PARAM_PLATFORM]
+                'conversion' => $requestParams[self::REQUEST_PARAM_CONVERSION_ID]
             ];
         }
 
         //Quick approach to fetch counts, even though not ideal
-        $total = $this->conversionModel->countBy($requestParams);
+        $total = $this->revenueModel->countBy($filteredParams);
 
         $resource = new CollectionRepresentation($this->revenueModel->getDistributionsBy($filteredParams));
         $resource = new OffsetRepresentation(
             $resource,
-            'app_conversion_getconversions',
+            'app_revenue_getrevenuesdistributions',
             $requestParams,
             0,
             50,
@@ -128,8 +130,9 @@ class RevenueController extends AbstractApiController
      */
     public function getRevenuesDistributionsTotalSumByPlatform(Request $request): JsonResponse
     {
-        dump($request);
-        $totalDistribution = $this->revenueModel->getTotalRevenueDistributionByPlatform('tripadvisor');
+        $platform = $request->attributes->get(self::REQUEST_PARAM_PLATFORM);
+
+        $totalDistribution = $this->revenueModel->getTotalRevenueDistributionByPlatform($platform);
 
         if (!$totalDistribution) {
             return new JsonResponse("", Response::HTTP_NOT_FOUND, []);

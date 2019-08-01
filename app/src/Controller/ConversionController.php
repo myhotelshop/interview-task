@@ -122,7 +122,7 @@ class ConversionController extends AbstractApiController
         }
 
         //Quick approach to fetch counts, even though not ideal
-        $total = $this->conversionModel->countBy($requestParams);
+        $total = $this->conversionModel->countBy($filteredParams);
 
         $resource = new CollectionRepresentation($this->conversionModel->getBy($filteredParams));
         $resource = new OffsetRepresentation(
@@ -238,7 +238,7 @@ class ConversionController extends AbstractApiController
      */
     private function addConversionRevenueDistributions(Conversion $conversion, VisitCollection $visits)
     {
-        $distributions = $this->revenueModel->distribute($conversion->getRevenue(), $visits);
+        $distributions = $this->revenueModel->distribute($conversion, $visits);
 
         foreach ($distributions as $distribution) {
             $conversion->addRevenueDistribution($distribution);

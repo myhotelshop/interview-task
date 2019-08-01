@@ -29,4 +29,10 @@ interface RevenueModelInterface
      * @return TotalRevenueDistribution|null
      */
     public function getTotalRevenueDistributionByPlatform(string $platform): ?TotalRevenueDistribution;
+
+    /**
+     * @param array $params
+     * @return int
+     */
+    public function countBy(array $params): int;
 }

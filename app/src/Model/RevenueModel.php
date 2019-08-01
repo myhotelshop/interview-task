@@ -71,4 +71,14 @@ class RevenueModel implements RevenueModelInterface
 
         return $totalDistribution;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function countBy(array $params): int
+    {
+        /** @var RevenueDistributionRepository $objectRepository */
+        $objectRepository = $this->registry->getRepository(RevenueDistribution::class);
+        return $objectRepository->count($params);
+    }
 }
