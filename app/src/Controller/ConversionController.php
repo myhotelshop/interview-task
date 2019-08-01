@@ -3,64 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Conversion;
-use App\Entity\RevenueDistribution;
 use App\Entity\Visit;
 use App\Entity\VisitCollection;
-use App\Model\ConversionModelInterface;
-use App\Model\RevenueModelInterface;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Hateoas\Hateoas;
-use Hateoas\HateoasBuilder;
-use Hateoas\UrlGenerator\SymfonyUrlGenerator;
+use Hateoas\Representation\CollectionRepresentation;
+use Hateoas\Representation\OffsetRepresentation;
 use Swagger\Annotations as SWG;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ConversionController extends AbstractController
+class ConversionController extends AbstractApiController
 {
-    /**
-     * @var Hateoas
-     */
-    private $hateoas;
-
-    /**
-     * @var UrlGeneratorInterface
-     */
-    private $urlGenerator;
-
-    /**
-     * @var ConversionModelInterface
-     */
-    private $conversionModel;
-    /**
-     * @var RevenueModelInterface
-     */
-    private $revenueModel;
-
-    public function __construct(
-        ConversionModelInterface $conversionModel,
-        RevenueModelInterface $revenueModel,
-        UrlGeneratorInterface $urlGenerator
-    )
-    {
-        $this->urlGenerator = $urlGenerator;
-        $builder = HateoasBuilder::create();
-        $this->hateoas = $builder
-            ->setDebug(false)
-            ->setUrlGenerator(null, new SymfonyUrlGenerator($this->urlGenerator))
-            ->build();
-
-        $this->conversionModel = $conversionModel;
-        $this->revenueModel = $revenueModel;
-    }
-
     /**
      * Create a new conversion
      *
@@ -93,14 +49,26 @@ class ConversionController extends AbstractController
     public function postConversion(Request $request): Response
     {
         $requestParams = $request->query->all();
-        $customerId = (int)$requestParams['customerId'];
+
+        $hasRequired = $this->hasRequiredParams([
+            self::REQUEST_PARAM_CUSTOMER_ID,
+            self::REQUEST_PARAM_REVENUE,
+            self::REQUEST_PARAM_BOOKING_NUMBER
+        ], $requestParams);
+
+        if (!$hasRequired) {
+            return new JsonResponse([
+                'code' => Response::HTTP_BAD_REQUEST,
+                'reason' => 'Bad request',
+                'message' => 'required parameters are missing'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+
+        $customerId = (int)$requestParams[self::REQUEST_PARAM_CUSTOMER_ID];
 
         if ($customerId === 123) {
-
-            //logic to get last contact not working (either logic to get it or dates are not working at all)
-            // tests (?)
             // distribution
-            // make it possible to filter on loading
             // revenue endpoints
             // documentation
             $conversion = $this->createConversion($requestParams);
@@ -136,10 +104,37 @@ class ConversionController extends AbstractController
      *     ref="#/parameters/platform"
      * )
      * @SWG\Tag(name="Conversions")
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function getConversions(): JsonResponse
+    public function getConversions(Request $request): JsonResponse
     {
-        return $this->respond($this->conversionModel->getBy([]));
+        $requestParams = $request->query->all();
+
+        $platform = $requestParams[self::REQUEST_PARAM_PLATFORM] ?? null;
+
+        $filteredParams = [];
+
+        if ($platform) {
+            $filteredParams = [
+                self::REQUEST_PARAM_PLATFORM => $requestParams[self::REQUEST_PARAM_PLATFORM]
+            ];
+        }
+
+        //Quick approach to fetch counts, even though not ideal
+        $total = $this->conversionModel->countBy($requestParams);
+
+        $resource = new CollectionRepresentation($this->conversionModel->getBy($filteredParams));
+        $resource = new OffsetRepresentation(
+            $resource,
+            'app_conversion_getconversions',
+            $requestParams,
+            0,
+            50,
+            $total
+        );
+
+        return $this->respond($resource);
     }
 
     /**
@@ -178,15 +173,21 @@ class ConversionController extends AbstractController
     }
 
     /**
-     * @param $resource
-     *
-     * @return JsonResponse
+     * @param array $requiredKeys
+     * @param array $params
+     * @return bool
      */
-    protected function respond($resource): JsonResponse
+    private function hasRequiredParams(array $requiredKeys, array $params): bool
     {
-        $json = $this->hateoas->serialize($resource, 'json');
+        $has = true;
+        foreach ($requiredKeys as $key) {
+            if (!array_key_exists($key, $params)) {
+                $has = false;
+                break;
+            }
+        }
 
-        return new JsonResponse($json, 200, [], true);
+        return $has;
     }
 
     /**
@@ -195,9 +196,9 @@ class ConversionController extends AbstractController
      */
     private function createConversion(array $requestParams): Conversion
     {
-        $customerId = (int)$requestParams['customerId'];
-        $revenue = round((float)$requestParams['revenue']);
-        $bookingNumber = $customerId . '_' . $requestParams['bookingNumber'];
+        $customerId = (int)$requestParams[self::REQUEST_PARAM_CUSTOMER_ID];
+        $revenue = round((float)$requestParams[self::REQUEST_PARAM_REVENUE]);
+        $bookingNumber = $customerId . '_' . $requestParams[self::REQUEST_PARAM_BOOKING_NUMBER];
 
         $conversion = new Conversion();
         $conversion->setBookingNumber($bookingNumber);

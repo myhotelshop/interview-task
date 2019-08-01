@@ -5,6 +5,7 @@ namespace App\Model;
 
 
 use App\Entity\Conversion;
+use App\Repository\ConversionRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 class ConversionModel implements ConversionModelInterface
@@ -26,7 +27,7 @@ class ConversionModel implements ConversionModelInterface
      */
     public function getBy(array $params): array
     {
-        return $this->registry->getRepository(Conversion::class)->findAll();
+        return $this->registry->getRepository(Conversion::class)->findBy($params);
     }
 
     /**
@@ -44,5 +45,15 @@ class ConversionModel implements ConversionModelInterface
 
         $manager->persist($conversion);
         $manager->flush();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function countBy(array $params): int
+    {
+        /** @var ConversionRepository $objectRepository */
+        $objectRepository = $this->registry->getRepository(Conversion::class);
+        return $objectRepository->count($params);
     }
 }

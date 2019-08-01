@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Conversion|null findOneBy(array $criteria, array $orderBy = null)
  * @method Conversion[]    findAll()
  * @method Conversion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method int    count(array $criteria)
  */
 class ConversionRepository extends ServiceEntityRepository
 {

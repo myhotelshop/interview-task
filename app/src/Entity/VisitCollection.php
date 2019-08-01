@@ -17,7 +17,8 @@ class VisitCollection extends ArrayCollection
 
         /** @var Visit $visit */
         foreach ($this->toArray() as $visit) {
-            if (!$earliest || $visit->getDate() < $earliest) {
+            /** @var Visit $earliest */
+            if (!$earliest || $visit->getDate() < $earliest->getDate()) {
                 $earliest = $visit;
             }
         }
@@ -30,11 +31,12 @@ class VisitCollection extends ArrayCollection
      */
     public function getLatest(): ?Visit
     {
-        $latest = new \DateTime('1900-01-01');
+        $latest = null;
 
         /** @var Visit $visit */
         foreach ($this->toArray() as $visit) {
-            if (!$latest || $visit->getDate() > $latest) {
+            /** @var Visit $latest */
+            if (!$latest || $visit->getDate() > $latest->getDate()) {
                 $latest = $visit;
             }
         }
