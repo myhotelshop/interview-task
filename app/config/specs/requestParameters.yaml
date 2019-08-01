@@ -1,0 +1,43 @@
+nelmio_api_doc:
+  documentation:
+    parameters:
+      conversionId:
+        name: conversionId
+        description: 'the id of the conversion'
+        type: int
+        in: query
+      platform:
+        name: platform
+        description: 'the name of the platform'
+        type: string
+        in: query
+      platformPath:
+        name: platform
+        required: true
+        description: 'the name of the platform'
+        type: string
+        in: path
+      idPath:
+        name: id
+        required: true
+        description: 'the resource identifier'
+        type: string
+        in: path
+      customerId:
+        name: customerId
+        required: true
+        description: 'the identifier of the customer'
+        type: string
+        in: query
+      revenue:
+        name: revenue
+        required: true
+        description: 'revenue of the conversion in €'
+        type: number
+        in: query
+      bookingNumber:
+        name: bookingNumber
+        required: true
+        description: 'the identifier of the booking'
+        type: string
+        in: query
