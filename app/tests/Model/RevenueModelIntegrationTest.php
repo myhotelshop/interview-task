@@ -64,9 +64,9 @@ class RevenueModelIntegrationTest extends WebTestCase
 
         $this->assertCount(1, $result);
 
-        /** @var TotalRevenueDistribution $distribution */
+        /** @var RevenueDistribution $distribution */
         $distribution = $result[0];
-        $this->assertInstanceOf(TotalRevenueDistribution::class, $distribution);
+        $this->assertInstanceOf(RevenueDistribution::class, $distribution);
         $this->assertEquals($expectedDistribution, $distribution);
     }
 
@@ -87,28 +87,28 @@ class RevenueModelIntegrationTest extends WebTestCase
             ->setRevenue(1000);
 
         $expectedDistributions = [
-            'platformA' => [
-                (new RevenueDistribution())
-                    ->setPlatform('platformA')
-                    ->setConversion($conversion)
-                    ->setAmount(450)
-            ],
-            'platformB' => [
-                (new RevenueDistribution())
-                    ->setPlatform('platformB')
-                    ->setConversion($conversion)
-                    ->setAmount(550)
-            ],
+            'platformA' => (new RevenueDistribution())
+                ->setPlatform('platformA')
+                ->setConversion($conversion)
+                ->setAmount(450)
+            ,
+            'platformB' => (new RevenueDistribution())
+                ->setPlatform('platformB')
+                ->setConversion($conversion)
+                ->setAmount(550)
+            ,
         ];
 
         $result = $this->model->distribute($conversion, new VisitCollection($visits));
 
         $this->assertCount(count($expectedDistributions), $result);
 
+        /** @var RevenueDistribution $distribution */
         foreach ($result as $distribution) {
-            /** @var TotalRevenueDistribution $distribution */
-            $this->assertInstanceOf(TotalRevenueDistribution::class, $distribution);
-            $this->assertEquals($expectedDistributions[$distribution->getPlatform()], $distribution);
+            $expectedDistribution = $expectedDistributions[$distribution->getPlatform()];
+
+            $this->assertInstanceOf(RevenueDistribution::class, $distribution);
+            $this->assertEquals($expectedDistribution, $distribution);
         }
     }
 
@@ -137,30 +137,22 @@ class RevenueModelIntegrationTest extends WebTestCase
             ->setRevenue(1000);
 
         $expectedDistributions = [
-            'platformA' => [
-                (new RevenueDistribution())
-                    ->setPlatform('platformA')
-                    ->setConversion($conversion)
-                    ->setAmount(350)
-            ],
-            'platformB' => [
-                (new RevenueDistribution())
-                    ->setPlatform('platformB')
-                    ->setConversion($conversion)
-                    ->setAmount(450)
-            ],
-            'platformC' => [
-                (new RevenueDistribution())
-                    ->setPlatform('platformC')
-                    ->setConversion($conversion)
-                    ->setAmount(100)
-            ],
-            'platformD' => [
-                (new RevenueDistribution())
-                    ->setPlatform('platformD')
-                    ->setConversion($conversion)
-                    ->setAmount(100)
-            ],
+            'platformA' => (new RevenueDistribution())
+                ->setPlatform('platformA')
+                ->setConversion($conversion)
+                ->setAmount(350),
+            'platformB' => (new RevenueDistribution())
+                ->setPlatform('platformB')
+                ->setConversion($conversion)
+                ->setAmount(450),
+            'platformC' => (new RevenueDistribution())
+                ->setPlatform('platformC')
+                ->setConversion($conversion)
+                ->setAmount(100),
+            'platformD' => (new RevenueDistribution())
+                ->setPlatform('platformD')
+                ->setConversion($conversion)
+                ->setAmount(100),
         ];
 
         $result = $this->model->distribute($conversion, new VisitCollection($visits));
@@ -168,8 +160,8 @@ class RevenueModelIntegrationTest extends WebTestCase
         $this->assertCount(count($expectedDistributions), $result);
 
         foreach ($result as $distribution) {
-            /** @var TotalRevenueDistribution $distribution */
-            $this->assertInstanceOf(TotalRevenueDistribution::class, $distribution);
+            /** @var RevenueDistribution $distribution */
+            $this->assertInstanceOf(RevenueDistribution::class, $distribution);
             $this->assertEquals($expectedDistributions[$distribution->getPlatform()], $distribution);
         }
     }

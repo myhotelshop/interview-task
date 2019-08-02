@@ -70,10 +70,10 @@ class ConversionControllerFunctionalTest extends WebTestCase
         $client->request('GET', '/conversions', ['platform' => 'test_tripadvisor'], [], []);
 
         $response = $client->getResponse();
-        $conversions = json_decode($response->getContent(), true)['_embedded'];
+        $conversions = json_decode($response->getContent(), true)['_embedded']['items'];
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertNotEmpty($conversions['items']);
+        $this->assertNotEmpty($conversions);
 
         foreach ($conversions as $conversion) {
             $this->assertEquals('test_tripadvisor', $conversion['platform']);
