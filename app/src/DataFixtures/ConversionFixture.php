@@ -9,6 +9,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 
 class ConversionFixture extends Fixture
 {
+    /**
+     * Automated tests will rely on this fixtures
+     * In order to prevent collisions with data inserted manually in DB, platforms are prefixed with "test_"
+     */
     public function load(ObjectManager $manager)
     {
 

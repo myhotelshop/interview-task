@@ -6,7 +6,7 @@ In order to start the application for manual testing, do the following steps:
 - start the web server by running command:
     -`docker-compose up -d webserver`
 - install composer dependencies
-    - `docker-compose exec app composer install`
+    - `docker-compose exec app composer install --no-interaction`
 - build DB tables
     - `docker-compose exec app php bin/console doctrine:migrations:migrate`
     - type `y` on prompt
