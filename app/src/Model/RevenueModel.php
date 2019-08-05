@@ -149,7 +149,7 @@ class RevenueModel implements RevenueModelInterface
     /**
      * @inheritDoc
      */
-    public function countBy(array $params): int
+    public function countDistributionsBy(array $params): int
     {
         /** @var RevenueDistributionRepository $objectRepository */
         $objectRepository = $this->registry->getRepository(RevenueDistribution::class);

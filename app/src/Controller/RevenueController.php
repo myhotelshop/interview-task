@@ -54,7 +54,7 @@ class RevenueController extends AbstractApiController
         }
 
         //Quick approach to fetch counts, even though not ideal
-        $total = $this->revenueModel->countBy($filteredParams);
+        $total = $this->revenueModel->countDistributionsBy($filteredParams);
 
         $resource = new CollectionRepresentation($this->revenueModel->getDistributionsBy($filteredParams));
         $resource = new OffsetRepresentation(

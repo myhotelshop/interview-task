@@ -40,15 +40,24 @@ run command `docker-compose up tests```
 - distribution resource will provide a link to get total revenue distributed by platform
 - call that link to fetch the information
 
-## Get total conversions by platform
-
-- call GET /conversions?platform={platform} (use test_tripadvisor for example)
-
-## GET most attractive platforms
-`//ToDo`
-
 
 # Documentation
 
+## Classes
+![Database tables](./classes.jpg)
+
 ## Database
 ![Database tables](./database.jpg)
+
+## Distribution model
+
+- Rules:
+    - 1st visited platform receives 45% of amount
+    - last visited platform receives 35% of amount
+    - the other visited platforms receive 25% of amount equally distributed by them
+    - If there is only one visited platform, it will get all
+    - If there are two platforms:
+        - 1st visited platform receives 55% of amount
+        - last visited platform receives 45% of amount      
+- Class: RevenueDistributionModel
+- Repository: RevenueDistributionRepository

@@ -29,5 +29,5 @@ interface ConversionModelInterface
     /**
      * @return MostAttractivePlatform|null
      */
-    public function getMostPopularPlatform(): ?MostAttractivePlatform;
+    public function getMostAttractivePlatform(): ?MostAttractivePlatform;
 }

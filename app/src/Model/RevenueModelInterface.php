@@ -34,5 +34,5 @@ interface RevenueModelInterface
      * @param array $params
      * @return int
      */
-    public function countBy(array $params): int;
+    public function countDistributionsBy(array $params): int;
 }

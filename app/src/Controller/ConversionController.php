@@ -182,7 +182,7 @@ class ConversionController extends AbstractApiController
      */
     public function getMostAttractivePlatform(): JsonResponse
     {
-        return $this->respondOk($this->conversionModel->getMostPopularPlatform());
+        return $this->respondOk($this->conversionModel->getMostAttractivePlatform());
     }
 
     /**
