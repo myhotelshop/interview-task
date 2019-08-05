@@ -1,0 +1,17 @@
+imports:
+    - { resource: ../specs/resources.yaml }
+    - { resource: ../specs/requestParameters.yaml }
+
+nelmio_api_doc:
+    documentation:
+        host: 'localhost:8888'
+        schemes: [http]
+        info:
+            title: Tracking Model API
+            description: Interview task by Fábio Martins
+            version: 1.0.0
+        consumes: ["application/json"]
+        produces: ["application/json"]
+    areas:
+        default:
+            path_patterns: [ ^/conversions,  ^/revenues]

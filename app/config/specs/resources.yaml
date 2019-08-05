@@ -1,0 +1,187 @@
+nelmio_api_doc:
+  documentation:
+    definitions:
+      conversion:
+        type: object
+        properties:
+          id:
+            type: string
+          bookingNumber:
+            type: string
+          customerId:
+            type: string
+          date:
+            type: string
+          revenue:
+            type: integer
+          platform:
+            type: string
+          entryPoint:
+            type: string
+          _links:
+            type: object
+            properties:
+              self:
+                $ref: '#/definitions/link'
+              revenue-distributions:
+                $ref: '#/definitions/link'
+            required:
+              - self
+              - revenue-distributions
+        required:
+          - id
+          - bookingNumber
+          - customerId
+          - date
+          - revenue
+          - platform
+          - _links
+      conversionCollection:
+        type: object
+        properties:
+          count:
+            $ref: '#/definitions/collectionPropertyCount'
+          total:
+            $ref: '#/definitions/collectionPropertyTotal'
+          _links:
+            type: object
+            description: Includes the links for related resources or actions.
+            properties:
+              self:
+                $ref: '#/definitions/link'
+            required:
+              - self
+          _embedded:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/definitions/conversion'
+            required:
+              - items
+        required:
+          - count
+          - total
+          - _links
+          - _embedded
+      revenueDistribution:
+        type: object
+        properties:
+          id:
+            type: string
+          conversionId:
+            type: integer
+          platform:
+            type: string
+          amount:
+            type: integer
+          _links:
+            type: object
+            properties:
+              self:
+                $ref: '#/definitions/link'
+              conversion:
+                $ref: '#/definitions/link'
+              platform-total-revenue-distribution:
+                $ref: '#/definitions/link'
+            required:
+              - self
+              - conversion
+              - platform-total-revenue-distribution
+        required:
+          - id
+          - conversionId
+          - platform
+          - amount
+          - _links
+      revenueDistributionCollection:
+        type: object
+        properties:
+          count:
+            $ref: '#/definitions/collectionPropertyCount'
+          total:
+            $ref: '#/definitions/collectionPropertyTotal'
+          _links:
+            type: object
+            description: Includes the links for related resources or actions.
+            properties:
+              self:
+                $ref: '#/definitions/link'
+            required:
+              - self
+          _embedded:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  $ref: '#/definitions/revenueDistribution'
+            required:
+              - items
+        required:
+          - count
+          - total
+          - _links
+          - _embedded
+      totalRevenueDistribution:
+        type: object
+        properties:
+          platform:
+            type: string
+          amount:
+            type: integer
+          _links:
+            type: object
+            properties:
+              self:
+                $ref: '#/definitions/link'
+            required:
+              - self
+        required:
+          - platform
+          - amount
+      mostAttractivePlatform:
+        type: object
+        properties:
+          platform:
+            type: string
+          occurrences:
+            type: integer
+          _links:
+            type: object
+            properties:
+              self:
+                $ref: '#/definitions/link'
+            required:
+              - self
+        required:
+          - platform
+          - occurrences
+          - _links
+      link:
+        type: object
+        properties:
+          href:
+            type: string
+        required:
+          - href
+      errorResponse:
+        type: object
+        properties:
+          code:
+            type: integer
+          reason:
+            type: string
+          message:
+            type: string
+        required:
+          - code
+          - reason
+      collectionPropertyTotal:
+        type: integer
+        description: Total count of items across all pages inside collection
+      collectionPropertyCount:
+        type: integer
+        description: Current count of items returned inside collection
+

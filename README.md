@@ -1,56 +1,63 @@
-# Conversion Tracking Model
+# Development
+## Run application
 
-Goal is to implement a conversion tracking model for advertisers that weights various points of contacts with their customers.
-
-## Task Description
-
-Fork this project, implement your solution and open a Pull Request at github.
-
-### Implementation
-
-Implement a GET web-endpoint that is accessed by advertisers to track a conversion (a customer buys a product) and connect it with the various internet placements the advertiser has deployed. 
-The endpoint shall accept the following parameters:
-
- - **revenue** revenue of the conversion in €, full numbers (no cent-values). If cent values arrive, ceil or floor as appropriate
- - **customerId**
- - **bookingNumber** Booking number as given by the advertiser. Within the data-model, this needs to be unique per customer
+In order to start the application for manual testing, do the following steps:
  
-On request, you need to read a cookie that holds points of contact of the requester with the advertiser's placements. For convenience, this cookie shall hold the following hard-coded json:
-This endpoint must not have access restrictions.
-```
-$_COOKIE['mhs-tracking'] = '{"placements": [{"platform": "trivago", "customer_id": 123, "date_of_contact": "2018-01-01 14:00:00"}, {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}]}';
-```
+- start the web server by running command:
+    -`docker-compose up -d webserver`
+- install composer dependencies
+    - `docker-compose exec app composer install --no-interaction`
+- build DB tables
+    - `docker-compose exec app php bin/console doctrine:migrations:migrate`
+    - type `y` on prompt
+- import fixtures
+    - `docker-compose exec app php bin/console doctrine:fixtures:load`
+    - type `yes` on prompt
+- open in browser:
+    - `localhost:8888`
 
-This means the requester had contact with 3 placements of the advertiser with id "123" before actually buying something, first point of contact was platform "trivago" at January 1st.
-On request with customerId=123, you shall now distribute the generated conversion revenue to all points of contact of the requester. If the request contains a customerId other then "123", do nothing.
-As a result, the advertiser shall be able to ask the software via a RESTful interface about all generated conversions and how they distribute among her placements.
-For this, you have to implement a distribution model alongside with an apprpriate database model to persist the data.
-The distribution model shall honor the first- and last point of contact especially, with the first point of contact being the most important one.
-So, common queries for the RESTful interface would read for example:
- - GET the platform that attracts the most customers the first time
- - GET the revenue by platform
- - GET the number of conversions (by platform)
+## Stop application
 
-The software must be executable at a local environment.
+Run command `docker-compose down --remove-orphans`
 
-### Documentation
 
- - Document how your software has to be setup and executed. You may use any automation tools you want (or not).
- - Document your code.
- - Document your distribution model and database model. Choose a proper format, e.g. ERM for the database, UML for the distribution model. Only the distribution model allows plaintext as well ;)
- - Document the RESTful API.
+## Run automated tests:
 
-### Test and execution
+**Important**
+For convenience reasons, it is necessary to follow the steps in "run application" in order to run the tests
 
-Explain how to test your software locally. This includes documentation on how to run automated tests, if any.
-Provide a dataset to seed the database with a proper dataset that enables the RESTful interface to show what it can do.
+run command `docker-compose up tests```
 
-## Tools
 
-Implement the software in PHP. Apart from that, you may choose any tools, frameworks, libraries or infrastructure services you like. No Constraints! You may also implement everything in vanilla PHP.
+# Test manually
 
-## Optional Tasks
+## Add a new conversions
 
- - implement authentication for the RESTful interface
- - implement ACL for the RESTful  interface (e.g. only customer with id "123" is allowed to query for conversions with customerId "123")
- - show you DevOps skills: implement an automated (cloud) deployment of your software  
+- call GET /conversions/new with valid parameters to create a new conversion
+- call GET /conversions and find the conversion in the response
+- the conversion will have a link to the revenue distributions
+- use that link to fetch the distribution resources
+- distribution resource will provide a link to get total revenue distributed by platform
+- call that link to fetch the information
+
+
+# Documentation
+
+## Classes
+![Database tables](./classes.jpg)
+
+## Database
+![Database tables](./database.jpg)
+
+## Distribution model
+
+- Rules:
+    - 1st visited platform receives 45% of amount
+    - last visited platform receives 35% of amount
+    - the other visited platforms receive 25% of amount equally distributed by them
+    - If there is only one visited platform, it will get all
+    - If there are two platforms:
+        - 1st visited platform receives 55% of amount
+        - last visited platform receives 45% of amount      
+- Class: RevenueDistributionModel
+- Repository: RevenueDistributionRepository
