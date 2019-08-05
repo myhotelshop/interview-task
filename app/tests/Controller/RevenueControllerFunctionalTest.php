@@ -29,7 +29,7 @@ class RevenueControllerFunctionalTest extends WebTestCase
         $responseContent = json_decode($response->getContent(), true);
 
         $this->assertEquals('test_tripadvisor', $responseContent['platform']);
-        $this->assertEquals(300, $responseContent['amount']);
+        $this->assertEquals(350, $responseContent['amount']);
     }
 
     public function testGetRevenuesDistributionsTotalSumByPlatformNotFound()

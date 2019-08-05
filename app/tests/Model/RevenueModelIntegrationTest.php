@@ -32,7 +32,7 @@ class RevenueModelIntegrationTest extends WebTestCase
         $result = $this->model->getTotalRevenueDistributionByPlatform('test_tripadvisor');
 
         $this->assertInstanceOf(TotalRevenueDistribution::class, $result);
-        $this->assertEquals(300, $result->getAmount());
+        $this->assertEquals(350, $result->getAmount());
         $this->assertEquals('test_tripadvisor', $result->getPlatform());
     }
 
