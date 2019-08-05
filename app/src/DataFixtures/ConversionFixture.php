@@ -24,6 +24,7 @@ class ConversionFixture extends Fixture
         $conversion->setConversationDate(new \DateTime('now'));
         $conversion->setCustomerId(123);
         $conversion->setPlatform("test_trivago");
+        $conversion->setEntryPoint("test_tripadvisor");
         $conversion->setRevenue(250);
 
         $distribution = new RevenueDistribution();
@@ -50,6 +51,7 @@ class ConversionFixture extends Fixture
         $conversion->setConversationDate(new \DateTime('now'));
         $conversion->setCustomerId(12);
         $conversion->setPlatform("test_tripadvisor");
+        $conversion->setEntryPoint("test_tripadvisor");
         $conversion->setRevenue(150);
 
         $distribution = new RevenueDistribution();
@@ -69,7 +71,32 @@ class ConversionFixture extends Fixture
         $conversion->setConversationDate((new \DateTime('now'))->modify('-3 day'));
         $conversion->setCustomerId(12);
         $conversion->setPlatform("test_trivago");
+        $conversion->setEntryPoint("test_kayak");
         $conversion->setRevenue(250);
+
+        $distribution = new RevenueDistribution();
+        $distribution->setPlatform('test_kayak');
+        $distribution->setAmount(150);
+
+        $conversion->addRevenueDistribution($distribution);
+
+        $manager->persist($distribution);
+
+        $distribution = new RevenueDistribution();
+        $distribution->setPlatform('test_tripadvisor');
+        $distribution->setAmount(50);
+
+        $conversion->addRevenueDistribution($distribution);
+
+        $manager->persist($distribution);
+
+        $distribution = new RevenueDistribution();
+        $distribution->setPlatform('test_trivago');
+        $distribution->setAmount(100);
+
+        $conversion->addRevenueDistribution($distribution);
+
+        $manager->persist($distribution);
 
         $manager->persist($conversion);
 

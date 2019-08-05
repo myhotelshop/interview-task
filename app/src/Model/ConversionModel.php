@@ -5,6 +5,7 @@ namespace App\Model;
 
 
 use App\Entity\Conversion;
+use App\Entity\MostAttractivePlatform;
 use App\Repository\ConversionRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -55,5 +56,35 @@ class ConversionModel implements ConversionModelInterface
         /** @var ConversionRepository $objectRepository */
         $objectRepository = $this->registry->getRepository(Conversion::class);
         return $objectRepository->count($params);
+    }
+
+    /**
+     * @return MostAttractivePlatform|null
+     */
+    public function getMostPopularPlatform(): ?MostAttractivePlatform
+    {
+        $mostAttractive = null;
+        /** @var ConversionRepository $repository */
+        $repository = $this->registry->getRepository(Conversion::class);
+
+
+        $rows = $repository->createQueryBuilder('c')
+            ->select('c.entryPoint AS platform, COUNT(c.entryPoint) AS count')
+            ->groupBy('platform')
+            ->orderBy('count', 'desc')
+            ->getQuery()
+            ->getResult();
+
+        $platform = $rows[0]['platform'] ?? null;
+        $occurrences = $rows[0]['count'] ?? null;
+
+        if ($rows) {
+            $mostAttractive = new MostAttractivePlatform();
+
+            $mostAttractive->setPlatform($platform)->setOccurrences($occurrences);
+        }
+
+
+        return $mostAttractive;
     }
 }

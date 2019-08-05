@@ -5,6 +5,7 @@ namespace App\Model;
 
 
 use App\Entity\Conversion;
+use App\Entity\MostAttractivePlatform;
 
 interface ConversionModelInterface
 {
@@ -24,4 +25,9 @@ interface ConversionModelInterface
      * @return int
      */
     public function countBy(array $params): int;
+
+    /**
+     * @return MostAttractivePlatform|null
+     */
+    public function getMostPopularPlatform(): ?MostAttractivePlatform;
 }

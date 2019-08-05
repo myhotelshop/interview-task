@@ -86,6 +86,12 @@ class Conversion
      */
     private $revenueDistribution;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Serializer\Expose
+     */
+    private $entryPoint;
+
     public function __construct()
     {
         $this->revenueDistribution = new ArrayCollection();
@@ -229,6 +235,18 @@ class Conversion
                 $revenueDistribution->setConversion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEntryPoint(): ?string
+    {
+        return $this->entryPoint;
+    }
+
+    public function setEntryPoint(string $entryPoint): self
+    {
+        $this->entryPoint = $entryPoint;
 
         return $this;
     }

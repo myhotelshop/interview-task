@@ -16,6 +16,8 @@ nelmio_api_doc:
             type: integer
           platform:
             type: string
+          entryPoint:
+            type: string
           _links:
             type: object
             properties:
@@ -139,6 +141,24 @@ nelmio_api_doc:
         required:
           - platform
           - amount
+      mostAttractivePlatform:
+        type: object
+        properties:
+          platform:
+            type: string
+          occurrences:
+            type: integer
+          _links:
+            type: object
+            properties:
+              self:
+                $ref: '#/definitions/link'
+            required:
+              - self
+        required:
+          - platform
+          - occurrences
+          - _links
       link:
         type: object
         properties:

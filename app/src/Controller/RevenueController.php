@@ -74,17 +74,7 @@ class RevenueController extends AbstractApiController
      *
      * @Route("/revenues/distributions/{id}", methods={"GET"})
      * @SWG\Response(
-     *     response=200,
-     *     description="Returns a revenue distribution document",
-     *     @SWG\Schema(ref="#/definitions/revenueDistribution")
-     * )
-     * @SWG\Response(
-     *     response=404,
-     *     description="Not found",
-     *     @SWG\Schema(ref="#/definitions/errorResponse")
-     * )
-     * @SWG\Response(
-     *     response=500,
+     *     response=501,
      *     description="Internal server error",
      *     @SWG\Schema(ref="#/definitions/errorResponse")
      * )

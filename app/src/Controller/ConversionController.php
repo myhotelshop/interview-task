@@ -68,9 +68,6 @@ class ConversionController extends AbstractApiController
         $customerId = (int)$requestParams[self::REQUEST_PARAM_CUSTOMER_ID];
 
         if ($customerId === 123) {
-            // distribution
-            // revenue endpoints
-            // documentation
             $conversion = $this->createConversion($requestParams);
 
             $this->enhanceConversion($conversion);
@@ -142,17 +139,7 @@ class ConversionController extends AbstractApiController
      *
      * @Route("/conversions/{id}", methods={"GET"})
      * @SWG\Response(
-     *     response=200,
-     *     description="Returns a conversion document",
-     *     @SWG\Schema(ref="#/definitions/conversion")
-     * )
-     * @SWG\Response(
-     *     response=404,
-     *     description="Not found",
-     *     @SWG\Schema(ref="#/definitions/errorResponse")
-     * )
-     * @SWG\Response(
-     *     response=500,
+     *     response=501,
      *     description="Internal server error",
      *     @SWG\Schema(ref="#/definitions/errorResponse")
      * )
@@ -170,6 +157,32 @@ class ConversionController extends AbstractApiController
         }
 
         return $this->json($conversion);
+    }
+
+    /**
+     * Get the platform which was the first place of contact before a conversion the most times
+     *
+     * @Route("/conversions/performance/most-attractive-platform", methods={"GET"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns a most popular platform document",
+     *     @SWG\Schema(ref="#/definitions/mostAttractivePlatform")
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Not found",
+     *     @SWG\Schema(ref="#/definitions/errorResponse")
+     * )
+     * @SWG\Response(
+     *     response=500,
+     *     description="Internal server error",
+     *     @SWG\Schema(ref="#/definitions/errorResponse")
+     * )
+     * @SWG\Tag(name="Conversions")
+     */
+    public function getMostAttractivePlatform(): JsonResponse
+    {
+        return $this->respondOk($this->conversionModel->getMostPopularPlatform());
     }
 
     /**
