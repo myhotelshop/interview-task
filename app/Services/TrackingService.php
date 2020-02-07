@@ -5,7 +5,6 @@ namespace App\Services;
 
 
 use App\Models\Conversion;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -34,22 +33,29 @@ class TrackingService
    * @param int $customerId
    * @param string $bookingReference
    * @param int $revenue
+   * @param $cookie
    * @return bool
    */
-  public function distributeRevenue(int $customerId, string $bookingReference, int $revenue): bool
+  public function distributeRevenue(int $customerId, string $bookingReference, int $revenue, $cookie): bool
   {
-    // I assumed that this is my cookie
-    $placements = json_decode('{"placements": [
+    // I assumed that the cookie is not sent then decode cookie to assoc array'
+    if (is_null($cookie)) {
+      $cookie = json_decode('{"placements": [
     {"platform": "trivago", "customer_id": 123, "date_of_contact": "2018-01-01 14:00:00"}, 
     {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, 
     {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}
     ]}', true);
+    } else {
+      $cookie = json_decode($cookie, true);
+    }
+    $placements = $cookie['placements'];
+
 
     // get avg for every platform
-    $revenueShare = floor(($revenue / count($placements['placements'])));
+    $revenueShare = floor(($revenue / count($placements)));
     // loop through placements and insert them into DB
     $insertedData = [];
-    foreach ($placements['placements'] as $placement) {
+    foreach ($placements as $placement) {
       if ($customerId !== 123) {
         return false;
       }

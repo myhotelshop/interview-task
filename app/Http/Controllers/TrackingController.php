@@ -34,7 +34,8 @@ class TrackingController extends Controller
     $revenue = (int)$request->revenue;
     $customerId = $request->customerId;
     $bookingReference = $request->bookingReference;
-    $results = $this->trackingService->distributeRevenue($customerId, $bookingReference, $revenue);
+    $cookie = $request->cookie('mhs_tracking');
+    $results = $this->trackingService->distributeRevenue($customerId, $bookingReference, $revenue, $cookie);
     if (!$results)
       return response()->json(['status' => false], Response::HTTP_UNPROCESSABLE_ENTITY);
     return response()->json(['status' => true], Response::HTTP_OK);

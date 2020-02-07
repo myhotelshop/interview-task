@@ -24,7 +24,7 @@ class TrackingRequest extends FormRequest
   {
     return [
       'revenue' => 'required|gt:0',
-      'customerId' => 'required|gt:0|unique:conversions,customer_id',
+      'customerId' => 'required|gt:0|exists:customers,id',
       'bookingReference' => 'required',
     ];
   }
