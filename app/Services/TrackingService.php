@@ -32,12 +32,12 @@ class TrackingService
    * this function for distribute revenue among all platforms that exist in the static Cookie
    * this insert this distribute revenue for each platform with customer ID and booking number
    * @param int $customerId
-   * @param string $bookingReference
+   * @param string $bookingNumber
    * @param int $revenue
    * @param $cookie
    * @return bool
    */
-  public function distributeRevenue(int $customerId, string $bookingReference, int $revenue, $cookie): bool
+  public function distributeRevenue(int $customerId, string $bookingNumber, int $revenue, $cookie): bool
   {
     // I assumed that the cookie is not sent then decode cookie to assoc array'
     if (is_null($cookie)) {
@@ -62,7 +62,7 @@ class TrackingService
       }
       $insertedData[] = [
         'customer_id' => $customerId,
-        'booking_reference' => $bookingReference,
+        'booking_number' => $bookingNumber,
         'revenue' => $revenueShare,
         'platform' => $placement['platform'],
         'date_of_contact' => $placement['date_of_contact'],
@@ -91,6 +91,16 @@ class TrackingService
       ->orderBy(DB::raw('count(platform)', 'DESC'))
       ->take(1)->first();
 
+  }
+
+  /**
+   * return sum of conversion for specific platform
+   * @param $platform
+   * @return int
+   */
+  public function getPlatformRevenue(string $platform): int
+  {
+    return Conversion::where('platform', $platform)->sum('revenue');
   }
 
   /**

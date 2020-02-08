@@ -18,7 +18,7 @@ class CreateConversionTable extends Migration
       $table->unsignedBigInteger('customer_id');
       $table->string('platform');
       $table->unsignedInteger('revenue');
-      $table->string('booking_reference',50);
+      $table->string('booking_number',50);
       $table->date('date_of_contact');
       $table->timestamps();
       $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');

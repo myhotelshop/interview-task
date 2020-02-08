@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 
-class TrackingRequest extends FormRequest
+class PlatformRevenueRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -23,9 +23,7 @@ class TrackingRequest extends FormRequest
   public function rules()
   {
     return [
-      'revenue' => 'required|gt:0',
-      'customerId' => 'required|gt:0|exists:customers,id',
-      'bookingNumber' => 'required',
+      'platform' => 'required',
     ];
   }
 }
