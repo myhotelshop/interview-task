@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
-class TrackingTest extends TestCase
+class TrackingControllerTest extends TestCase
 {
   // start distribute_revenue endpoint tests
   /** @test */

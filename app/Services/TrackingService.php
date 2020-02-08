@@ -86,10 +86,10 @@ class TrackingService
    */
   public function getMostAttractedPlatform()
   {
-    return Conversion::select('platform')
+    return Conversion::select(DB::raw('count(platform) as platform_count'),'platform')
       ->groupBy('platform')
-      ->orderBy(DB::raw('count(platform)', 'DESC'))
-      ->take(1)->first();
+      ->orderBy(DB::raw('count(platform)'), 'DESC')
+      ->first();
 
   }
 
