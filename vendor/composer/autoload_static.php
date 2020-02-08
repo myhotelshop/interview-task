@@ -34,6 +34,7 @@ class ComposerStaticInite39bcabd83bfccaab3341ce24a2aa748
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         '0d8253363903f0ac7b0978dcde4e28a0' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/helpers.php',
+        '6601b0afd52bfb958f4bc80953865ae8' => __DIR__ . '/../..' . '/tests/utilities/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -4256,6 +4257,7 @@ class ComposerStaticInite39bcabd83bfccaab3341ce24a2aa748
         'Symfony\\Polyfill\\Php73\\Php73' => __DIR__ . '/..' . '/symfony/polyfill-php73/Php73.php',
         'Tests\\CreatesApplication' => __DIR__ . '/../..' . '/tests/CreatesApplication.php',
         'Tests\\Feature\\ExampleTest' => __DIR__ . '/../..' . '/tests/Feature/ExampleTest.php',
+        'Tests\\Feature\\TrackingTest' => __DIR__ . '/../..' . '/tests/Feature/TrackingTest.php',
         'Tests\\TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Tests\\Unit\\ExampleTest' => __DIR__ . '/../..' . '/tests/Unit/ExampleTest.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',

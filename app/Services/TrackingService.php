@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Models\Conversion;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 /**
@@ -79,6 +80,18 @@ class TrackingService
     return false;
   }
 
+  /**
+   * return most attracted platform
+   * @return mixed
+   */
+  public function getMostAttractedPlatform()
+  {
+    return Conversion::select('platform')
+      ->groupBy('platform')
+      ->orderBy(DB::raw('count(platform)', 'DESC'))
+      ->take(1)->first();
+
+  }
 
   /**
    * create multiple records
