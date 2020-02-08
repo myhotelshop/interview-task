@@ -57,7 +57,7 @@ class TrackingService
     // loop through placements and insert them into DB
     $insertedData = [];
     foreach ($placements as $placement) {
-      if ($customerId !== 123) {
+      if ($placement['customer_id'] !== 123) {
         return false;
       }
       $insertedData[] = [
@@ -101,6 +101,16 @@ class TrackingService
   public function getPlatformRevenue(string $platform): int
   {
     return Conversion::where('platform', $platform)->sum('revenue');
+  }
+
+  /**
+   * return count of conversion for specific platform
+   * @param string $platform
+   * @return int
+   */
+  public function getPlatformConversions(string $platform): int
+  {
+    return Conversion::where('platform', $platform)->get()->count();
   }
 
   /**

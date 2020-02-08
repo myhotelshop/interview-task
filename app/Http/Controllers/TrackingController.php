@@ -70,4 +70,15 @@ class TrackingController extends Controller
     $revenue = $this->trackingService->getPlatformRevenue($platform);
     return response()->json(['status' => true, $platform => $revenue], Response::HTTP_OK);
   }
+
+  /**
+   * @param PlatformConversionRequest $request
+   * @return JsonResponse
+   */
+  public function getPlatformConversions(PlatformConversionRequest $request)
+  {
+    $platform = $request->platform;
+    $count = $this->trackingService->getPlatformConversions($platform);
+    return response()->json(['status' => true, $platform => $count], Response::HTTP_OK);
+  }
 }

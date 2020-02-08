@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 Route::get('distribute-revenue', 'TrackingController@distributeRevenue');
 Route::get('most-attracted-platform', 'TrackingController@getMostAttractedPlatform');
 Route::get('platform-revenue', 'TrackingController@getPlatformRevenue');
+Route::get('platform-conversions', 'TrackingController@getPlatformConversions');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
