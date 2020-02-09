@@ -5,19 +5,19 @@ namespace Tests\Feature;
 
 use App\Models\Conversion;
 use App\Models\Customer;
-use App\Services\TrackingService;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class TrackingControllerTest extends TestCase
 {
-
+  private static $customerId = 123;
   // start distribute_revenue endpoint tests
+
   /** @test */
   public function distribute_revenue_valid_request(): void
   {
-    $request = $this->mockRequest(TrackingService::$customerId, 6);
+    $request = $this->mockRequest(self::$customerId, 6);
     create(Customer::class);
     $cookie = [
       'mhs_tracking' => mockCookieData()
@@ -32,7 +32,7 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_has_no_cookie(): void
   {
-    $request = $this->mockRequest(TrackingService::$customerId, 6);
+    $request = $this->mockRequest(self::$customerId, 6);
     create(Customer::class);
     $this->call('GET', '/api/distribute-revenue', $request)
       ->assertStatus(Response::HTTP_NOT_ACCEPTABLE)
@@ -44,7 +44,7 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_invalid_cookie_customer_id(): void
   {
-    $request = $this->mockRequest(TrackingService::$customerId, 6);
+    $request = $this->mockRequest(self::$customerId, 6);
     create(Customer::class);
     // here I changed placements first placement customer_id to 1234
     $cookie = [
@@ -60,7 +60,7 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_requires_a_customer_id_that_exists(): void
   {
-    $request = $this->mockRequest(null,6);
+    $request = $this->mockRequest(null, 6);
     $this->json('GET', '/api/distribute-revenue', $request)
       ->assertJsonValidationErrors(['customerId'])
       ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -70,7 +70,7 @@ class TrackingControllerTest extends TestCase
   public function distribute_revenue_requires_a_revenue_that_exists(): void
   {
     create(Customer::class);
-    $request = $this->mockRequest(TrackingService::$customerId);
+    $request = $this->mockRequest(self::$customerId);
     $this->json('GET', '/api/distribute-revenue', $request)
       ->assertJsonValidationErrors(['revenue'])
       ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -81,7 +81,7 @@ class TrackingControllerTest extends TestCase
   {
     create(Customer::class);
     $this->json('GET', '/api/distribute-revenue', [
-      'customerId' => TrackingService::$customerId,
+      'customerId' => self::$customerId,
       'revenue' => 30
     ])
       ->assertJsonValidationErrors(['bookingNumber'])
