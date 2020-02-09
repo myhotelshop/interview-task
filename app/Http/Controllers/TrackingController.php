@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -29,7 +30,7 @@ class TrackingController extends Controller
    * @param TrackingRequest $request
    * @return JsonResponse
    */
-  public function distributeRevenue(TrackingRequest $request)
+  public function distributeRevenue(TrackingRequest $request): JsonResponse
   {
     $revenue = (int)$request->revenue;
     $customerId = $request->customerId;
@@ -37,11 +38,12 @@ class TrackingController extends Controller
 
     //check if request has no cookie return 406 code status
     if (!$request->hasCookie('mhs_tracking'))
-      return response()->json(['status' => false], Response::HTTP_NOT_ACCEPTABLE);
+      return response()->json(['status' => false, 'message' => 'kindly sent cookie in the request'], Response::HTTP_NOT_ACCEPTABLE);
 
     $cookie = $request->cookie('mhs_tracking');
     $results = $this->trackingService->distributeRevenue($customerId, $bookingNumber, $revenue, $cookie);
 
+    // I returned this status because distributeRevenue may return false because customerId may not equal 123
     if (!$results)
       return response()->json(['status' => false], Response::HTTP_UNPROCESSABLE_ENTITY);
 
@@ -51,12 +53,13 @@ class TrackingController extends Controller
   /**
    * @return JsonResponse
    */
-  public function getMostAttractedPlatform()
+  public function getMostAttractedPlatform(): JsonResponse
   {
     $platform = $this->trackingService->getMostAttractedPlatform();
-    if (is_null($platform)) {
+
+    if (is_null($platform))
       return response()->json(['status' => false], Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
+
     return response()->json([
       'status' => true,
       'platform' => $platform->platform,
@@ -68,7 +71,7 @@ class TrackingController extends Controller
    * @param PlatformRevenueRequest $request
    * @return JsonResponse
    */
-  public function getPlatformRevenue(PlatformRevenueRequest $request)
+  public function getPlatformRevenue(PlatformRevenueRequest $request): JsonResponse
   {
     $platform = $request->platform;
     $revenue = $this->trackingService->getPlatformRevenue($platform);
@@ -79,10 +82,10 @@ class TrackingController extends Controller
    * @param PlatformConversionRequest $request
    * @return JsonResponse
    */
-  public function getPlatformConversions(PlatformConversionRequest $request)
+  public function getPlatformConversions(PlatformConversionRequest $request): JsonResponse
   {
     $platform = $request->platform;
-    $count = $this->trackingService->getPlatformConversions($platform);
-    return response()->json(['status' => true, $platform => $count], Response::HTTP_OK);
+    $platformConversionsCount = $this->trackingService->getPlatformConversions($platform);
+    return response()->json(['status' => true, $platform => $platformConversionsCount], Response::HTTP_OK);
   }
 }

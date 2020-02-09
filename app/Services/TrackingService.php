@@ -1,12 +1,11 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Services;
 
 
 use App\Models\Conversion;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class TrackingService
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 class TrackingService
 {
   /**
-   * @var $model
+   * @var Conversion $model
    */
   private $model;
 
@@ -23,7 +22,7 @@ class TrackingService
    * TrackingService constructor.
    * @param Conversion|null $model
    */
-  public function __construct(Conversion $model = null)
+  public function __construct(?Conversion $model = null)
   {
     $this->model = $model ?? new Conversion();
   }
@@ -31,26 +30,18 @@ class TrackingService
   /**
    * this function for distribute revenue among all platforms that exist in the static Cookie
    * this insert this distribute revenue for each platform with customer ID and booking number
-   * @param int $customerId
-   * @param string $bookingNumber
-   * @param int $revenue
-   * @param $cookie
-   * @return bool
    */
-  public function distributeRevenue(int $customerId, string $bookingNumber, int $revenue, $cookie): bool
+  public function distributeRevenue(int $customerId, string $bookingNumber, int $revenue, string $cookie): bool
   {
-    // I assumed that the cookie is not sent then decode cookie to assoc array'
-    if (is_null($cookie)) {
-      $cookie = json_decode('{"placements": [
-    {"platform": "trivago", "customer_id": 123, "date_of_contact": "2018-01-01 14:00:00"}, 
-    {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, 
-    {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}
-    ]}', true);
-    } else {
-      $cookie = json_decode($cookie, true);
-    }
-    $placements = $cookie['placements'];
+    $cookie = json_decode($cookie, true);
 
+    if (is_array($cookie) && key_exists('placements', $cookie)) {
+      $placements = $cookie['placements'];
+    } else {
+      return false;
+    }
+    if (!is_array($placements))
+      return false;
 
     // get avg for every platform
     $revenueShare = floor(($revenue / count($placements)));
@@ -69,24 +60,18 @@ class TrackingService
       ];
 
     }
-    if (!empty($insertedData)) {
-      try {
-        $this->createConversion($insertedData);
-        return true;
-      } catch (\Exception $exception) {
-        Log::error('cannot create revenue' . $exception->getMessage());
-      }
-    }
-    return false;
+
+    return $this->createConversion($insertedData);
+
   }
 
   /**
    * return most attracted platform
-   * @return mixed
+   * @return Conversion|null
    */
-  public function getMostAttractedPlatform()
+  public function getMostAttractedPlatform(): ?Conversion
   {
-    return Conversion::select(DB::raw('count(platform) as platform_count'),'platform')
+    return Conversion::select(DB::raw('count(platform) as platform_count'), 'platform')
       ->groupBy('platform')
       ->orderBy(DB::raw('count(platform)'), 'DESC')
       ->first();
@@ -95,17 +80,15 @@ class TrackingService
 
   /**
    * return sum of conversion for specific platform
-   * @param $platform
    * @return int
    */
-  public function getPlatformRevenue(string $platform): int
+  public function getPlatformRevenue(string $platform):int
   {
-    return Conversion::where('platform', $platform)->sum('revenue');
+    return (int) Conversion::where('platform', $platform)->sum('revenue');
   }
 
   /**
    * return count of conversion for specific platform
-   * @param string $platform
    * @return int
    */
   public function getPlatformConversions(string $platform): int
@@ -115,10 +98,9 @@ class TrackingService
 
   /**
    * create multiple records
-   * @param array $data
    */
-  private function createConversion(array $data): void
+  private function createConversion(array $data): bool
   {
-    $this->model->insert($data);
+    return $this->model->insert($data);
   }
 }

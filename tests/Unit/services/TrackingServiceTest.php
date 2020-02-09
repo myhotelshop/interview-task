@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Tests\Unit;
 
@@ -11,8 +12,11 @@ class TrackingServiceTest extends TestCase
 {
 
   // start distribute_revenue tests
-  /** @test */
-  public function distribute_revenue()
+  /**
+   * @test
+   * @covers \App\Services\TrackingService::distributeRevenue()
+   */
+  public function distribute_revenue():void
   {
     $trackingService = new TrackingService();
     $customer = create(Customer::class);
@@ -27,8 +31,11 @@ class TrackingServiceTest extends TestCase
 
   // start get_most_attracted_platform tests
 
-  /** @test */
-  public function get_most_attracted_platform()
+  /**
+   * @test
+   * @covers \App\Services\TrackingService::getMostAttractedPlatform()
+   */
+  public function get_most_attracted_platform():void
   {
     $trackingService = new TrackingService();
     create(Customer::class);
@@ -38,8 +45,11 @@ class TrackingServiceTest extends TestCase
     $this->assertEquals($result->platform, 'trivago');
   }
 
-  /** @test */
-  public function get_most_attracted_platform_if_database_is_empty()
+  /**
+   * @test
+   * @covers \App\Services\TrackingService::getMostAttractedPlatform()
+   */
+  public function get_most_attracted_platform_if_database_is_empty():void
   {
     $trackingService = new TrackingService();
     $result = $trackingService->getMostAttractedPlatform();
@@ -48,8 +58,11 @@ class TrackingServiceTest extends TestCase
   // end get_most_attracted_platform
 
   // start get_platform_revenue tests
-  /** @test */
-  public function get_platform_revenue()
+  /**
+   * @test
+   * @covers \App\Services\TrackingService::getPlatformRevenue()
+   */
+  public function get_total_platform_revenue():void
   {
     $trackingService = new TrackingService();
     create(Customer::class);
@@ -59,8 +72,11 @@ class TrackingServiceTest extends TestCase
     $this->assertEquals($result, 35);
   }
 
-  /** @test */
-  public function get_platform_revenue_if_database_is_empty()
+  /**
+   * @test
+   * @covers \App\Services\TrackingService::getPlatformRevenue()
+   */
+  public function get_platform_revenue_if_database_is_empty():void
   {
     $trackingService = new TrackingService();
     $result = $trackingService->getPlatformRevenue('trivago');
@@ -70,8 +86,11 @@ class TrackingServiceTest extends TestCase
 
 
   // start get_platform_conversions tests
-  /** @test */
-  public function get_platform_conversions_count()
+  /**
+   * @test
+   * @covers \App\Services\TrackingService::getPlatformConversions()
+   */
+  public function get_platform_conversions_count():void
   {
     $trackingService = new TrackingService();
     create(Customer::class);
@@ -80,8 +99,11 @@ class TrackingServiceTest extends TestCase
     $this->assertEquals($result, 20);
   }
 
-  /** @test */
-  public function get_platform_conversions_count_if_database_is_empty()
+  /**
+   * @test
+   * @covers \App\Services\TrackingService::getPlatformConversions()
+   */
+  public function get_platform_conversions_count_if_database_is_empty():void
   {
     $trackingService = new TrackingService();
     $result = $trackingService->getPlatformConversions('trivago');

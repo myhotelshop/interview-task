@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Requests;
 
@@ -19,7 +20,7 @@ class PlatformConversionRequest extends FormRequest
    *
    * @return array
    */
-  public function rules()
+  public function rules():array
   {
     return [
       'platform' => 'required',
