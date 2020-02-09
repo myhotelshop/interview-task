@@ -1,0 +1,463 @@
+{
+	"info": {
+		"_postman_id": "ad86dc1f-6409-44d9-a529-d1d6ade0f02e",
+		"name": "MyHotelShopTask",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Distribute Revenue",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/distribute-revenue?revenue=30&customerId=123&bookingNumber=abc321",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"distribute-revenue"
+					],
+					"query": [
+						{
+							"key": "revenue",
+							"value": "30"
+						},
+						{
+							"key": "customerId",
+							"value": "123"
+						},
+						{
+							"key": "bookingNumber",
+							"value": "abc321"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Distribute Revenue Valid Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/distribute-revenue?revenue=30&customerId=123&bookingNumber=abc321",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"distribute-revenue"
+							],
+							"query": [
+								{
+									"key": "revenue",
+									"value": "30"
+								},
+								{
+									"key": "customerId",
+									"value": "123"
+								},
+								{
+									"key": "bookingNumber",
+									"value": "abc321"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Host",
+							"value": "127.0.0.1:8000"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Feb 2020 08:35:32 GMT"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Feb 2020 08:35:32 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.3.13"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "60"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "59"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true\n}"
+				},
+				{
+					"name": "Distribute Revenue",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}distribute-revenue?revenue=47&customerId=1234&bookingReference=abc321",
+							"host": [
+								"{{url}}distribute-revenue"
+							],
+							"query": [
+								{
+									"key": "revenue",
+									"value": "47"
+								},
+								{
+									"key": "customerId",
+									"value": "1234"
+								},
+								{
+									"key": "bookingReference",
+									"value": "abc321"
+								}
+							]
+						}
+					},
+					"status": "Unprocessable Entity",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Host",
+							"value": "127.0.0.1:8000"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 07 Feb 2020 21:03:52 GMT"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 07 Feb 2020 21:03:52 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.3.13"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "60"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "59"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"errors\": {\n        \"customerId\": [\n            \"The selected customer id is invalid.\"\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Most Attracted Platform",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/most-attracted-platform",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"most-attracted-platform"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Most Attracted Platform",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}most-attracted-platform",
+							"host": [
+								"{{url}}most-attracted-platform"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Host",
+							"value": "127.0.0.1:8000"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 07 Feb 2020 20:06:57 GMT"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 07 Feb 2020 20:06:57 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.3.13"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "60"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "58"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"platform\": \"trivago\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Platform Revenue",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/platform-revenue?platform=trivago",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"platform-revenue"
+					],
+					"query": [
+						{
+							"key": "platform",
+							"value": "trivago"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Platform Revenue",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/platform-revenue?platform=trivago",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"platform-revenue"
+							],
+							"query": [
+								{
+									"key": "platform",
+									"value": "trivago"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Host",
+							"value": "127.0.0.1:8000"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Feb 2020 18:53:55 GMT"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Feb 2020 18:53:55 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.3.13"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "60"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "59"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"trivago\": 10\n}"
+				}
+			]
+		},
+		{
+			"name": "Platform Conversions count",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/platform-conversions?platform=trivago",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"platform-conversions"
+					],
+					"query": [
+						{
+							"key": "platform",
+							"value": "trivago"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Platform Conversions count",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/platform-conversions?platform=trivago",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"platform-conversions"
+							],
+							"query": [
+								{
+									"key": "platform",
+									"value": "trivago"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Host",
+							"value": "127.0.0.1:8000"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Feb 2020 18:54:13 GMT"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 09 Feb 2020 18:54:13 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/7.3.13"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "60"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "58"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"trivago\": 1\n}"
+				}
+			]
+		}
+	],
+	"protocolProfileBehavior": {}
+}
