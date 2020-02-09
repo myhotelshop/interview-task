@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 use App\Models\Conversion;
 use App\Models\Customer;
+use App\Services\TrackingService;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
@@ -16,7 +17,7 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_valid_request(): void
   {
-    $request = $this->mockRequest(123, 6);
+    $request = $this->mockRequest(TrackingService::$customerId, 6);
     create(Customer::class);
     $cookie = [
       'mhs_tracking' => '{
@@ -37,7 +38,7 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_has_no_cookie(): void
   {
-    $request = $this->mockRequest(123, 6);
+    $request = $this->mockRequest(TrackingService::$customerId, 6);
     create(Customer::class);
     $this->call('GET', '/api/distribute-revenue', $request)
       ->assertStatus(Response::HTTP_NOT_ACCEPTABLE)
@@ -49,17 +50,11 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_invalid_cookie_customer_id(): void
   {
-    $request = $this->mockRequest(123, 6);
+    $request = $this->mockRequest(TrackingService::$customerId, 6);
     create(Customer::class);
     // here I changed placements first placement customer_id to 1234
     $cookie = [
-      'mhs_tracking' => '{
-        "placements": [
-            {"platform": "trivago", "customer_id": 1234, "date_of_contact": "2018-01-01 14:00:00"}, 
-            {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, 
-            {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}
-        ]
-      }'
+      'mhs_tracking' => $this->mockCookieData(false)
     ];
     $this->call('GET', '/api/distribute-revenue', $request, $cookie)
       ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -71,10 +66,8 @@ class TrackingControllerTest extends TestCase
   /** @test */
   public function distribute_revenue_requires_a_customer_id_that_exists(): void
   {
-    $this->json('GET', '/api/distribute-revenue', [
-      'revenue' => 6,
-      'bookingNumber' => Str::random()
-    ])
+    $request = $this->mockRequest(null,6);
+    $this->json('GET', '/api/distribute-revenue', $request)
       ->assertJsonValidationErrors(['customerId'])
       ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
   }
@@ -83,10 +76,8 @@ class TrackingControllerTest extends TestCase
   public function distribute_revenue_requires_a_revenue_that_exists(): void
   {
     create(Customer::class);
-    $this->json('GET', '/api/distribute-revenue', [
-      'customerId' => 123,
-      'bookingNumber' => Str::random()
-    ])
+    $request = $this->mockRequest(TrackingService::$customerId);
+    $this->json('GET', '/api/distribute-revenue', $request)
       ->assertJsonValidationErrors(['revenue'])
       ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
   }
@@ -96,7 +87,7 @@ class TrackingControllerTest extends TestCase
   {
     create(Customer::class);
     $this->json('GET', '/api/distribute-revenue', [
-      'customerId' => 123,
+      'customerId' => TrackingService::$customerId,
       'revenue' => 30
     ])
       ->assertJsonValidationErrors(['bookingNumber'])

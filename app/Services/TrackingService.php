@@ -18,6 +18,8 @@ class TrackingService
    */
   private $model;
 
+  public static $customerId = 123;
+
   /**
    * TrackingService constructor.
    * @param Conversion|null $model
@@ -48,7 +50,7 @@ class TrackingService
     // loop through placements and insert them into DB
     $insertedData = [];
     foreach ($placements as $placement) {
-      if ($placement['customer_id'] !== 123) {
+      if ($placement['customer_id'] !== self::$customerId) {
         return false;
       }
       $insertedData[] = [
@@ -82,9 +84,9 @@ class TrackingService
    * return sum of conversion for specific platform
    * @return int
    */
-  public function getPlatformRevenue(string $platform):int
+  public function getPlatformRevenue(string $platform): int
   {
-    return (int) Conversion::where('platform', $platform)->sum('revenue');
+    return (int)Conversion::where('platform', $platform)->sum('revenue');
   }
 
   /**
