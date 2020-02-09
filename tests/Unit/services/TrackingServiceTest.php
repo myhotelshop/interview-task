@@ -20,7 +20,7 @@ class TrackingServiceTest extends TestCase
   {
     $trackingService = new TrackingService();
     $customer = create(Customer::class);
-    $cookie = $this->mockCookieData();
+    $cookie = mockCookieData();
     $response = $trackingService->distributeRevenue($customer->id, 'abc123', 30, $cookie);
     $this->assertTrue($response);
   }

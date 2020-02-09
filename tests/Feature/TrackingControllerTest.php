@@ -20,13 +20,7 @@ class TrackingControllerTest extends TestCase
     $request = $this->mockRequest(TrackingService::$customerId, 6);
     create(Customer::class);
     $cookie = [
-      'mhs_tracking' => '{
-        "placements": [
-            {"platform": "trivago", "customer_id": 123, "date_of_contact": "2018-01-01 14:00:00"}, 
-            {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, 
-            {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}
-        ]
-      }'
+      'mhs_tracking' => mockCookieData()
     ];
     $this->call('GET', '/api/distribute-revenue', $request, $cookie)
       ->assertStatus(Response::HTTP_OK)
@@ -54,7 +48,7 @@ class TrackingControllerTest extends TestCase
     create(Customer::class);
     // here I changed placements first placement customer_id to 1234
     $cookie = [
-      'mhs_tracking' => $this->mockCookieData(false)
+      'mhs_tracking' => mockCookieData(false)
     ];
     $this->call('GET', '/api/distribute-revenue', $request, $cookie)
       ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
