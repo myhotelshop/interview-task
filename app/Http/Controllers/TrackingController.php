@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PlatformConversionRequest;
 use App\Http\Requests\PlatformRevenueRequest;
 use App\Http\Requests\TrackingRequest;
+use App\Repositories\Interfaces\ConversionRepositoryInterface;
 use App\Repositories\Interfaces\RepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,15 +14,15 @@ use Symfony\Component\HttpFoundation\Response;
 class TrackingController extends Controller
 {
   /**
-   * @var RepositoryInterface
+   * @var ConversionRepositoryInterface
    */
   private $repository;
 
   /**
    * TrackingController constructor.
-   * @param RepositoryInterface $repository
+   * @param ConversionRepositoryInterface $repository
    */
-  public function __construct(RepositoryInterface $repository)
+  public function __construct(ConversionRepositoryInterface $repository)
   {
     $this->repository = $repository;
   }
@@ -44,6 +45,7 @@ class TrackingController extends Controller
     $results = $this->repository->distributeRevenue($customerId, $bookingNumber, $revenue, $cookie);
 
     // I returned this status because distributeRevenue may return false because customerId may not equal 123
+    // or booking number is already existed with another customer ID
     if (!$results)
       return response()->json(['status' => false], Response::HTTP_UNPROCESSABLE_ENTITY);
 

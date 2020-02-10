@@ -1,15 +1,15 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Repositories;
 
 
 use App\Models\Conversion;
-use App\Repositories\Interfaces\RepositoryInterface;
+use App\Repositories\Interfaces\ConversionRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class ConversionRepository implements RepositoryInterface
+class ConversionRepository implements ConversionRepositoryInterface
 {
   public static $customerId = 123;
   /**
@@ -38,6 +38,12 @@ class ConversionRepository implements RepositoryInterface
     if (is_array($cookie) && key_exists('placements', $cookie)) {
       $placements = $cookie['placements'];
     } else {
+      return false;
+    }
+    $conversion = $this->model->where('customer_id', '<>', $customerId)
+      ->where('booking_number', $bookingNumber)->first();
+
+    if (!is_null($conversion)) {
       return false;
     }
     if (!is_array($placements))
@@ -70,7 +76,7 @@ class ConversionRepository implements RepositoryInterface
    */
   public function getMostAttractedPlatform()
   {
-    return Conversion::select(DB::raw('count(platform) as platform_count'), 'platform')
+    return $this->model->select(DB::raw('count(platform) as platform_count'), 'platform')
       ->groupBy('platform')
       ->orderBy(DB::raw('count(platform)'), 'DESC')
       ->first();
@@ -83,7 +89,7 @@ class ConversionRepository implements RepositoryInterface
    */
   public function getPlatformRevenue(string $platform): int
   {
-    return (int)Conversion::where('platform', $platform)->sum('revenue');
+    return (int)$this->model->where('platform', $platform)->sum('revenue');
   }
 
   /**
@@ -92,7 +98,7 @@ class ConversionRepository implements RepositoryInterface
    */
   public function getPlatformConversions(string $platform): int
   {
-    return Conversion::where('platform', $platform)->get()->count();
+    return $this->model->where('platform', $platform)->get()->count();
   }
 
   /**

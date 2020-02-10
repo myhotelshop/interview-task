@@ -11,6 +11,7 @@ use Tests\TestCase;
 class ConversionRepositoryTest extends TestCase
 {
   private $trackingService;
+
   public function setUp()
   {
     parent::setUp();
@@ -31,6 +32,22 @@ class ConversionRepositoryTest extends TestCase
     $this->assertTrue($response);
   }
 
+  /**
+   * @test
+   * @covers \App\Repositories\ConversionRepository::distributeRevenue()
+   */
+  public function distribute_revenue_duplicated_booking_number_with_another_customer_id(): void
+  {
+
+    $customer = create(Customer::class);
+    $cookie = mockCookieData();
+    $response = $this->trackingService->distributeRevenue($customer->id, 'abc123', 30, $cookie);
+    $this->assertTrue($response);
+    $customer2 = create(Customer::class, ['id' => 1234]);
+    $cookie = mockCookieData();
+    $response = $this->trackingService->distributeRevenue($customer2->id, 'abc123', 30, $cookie);
+    $this->assertFalse($response);
+  }
   // start get_most_attracted_platform tests
 
   /**

@@ -1,10 +1,10 @@
 <?php
-
+declare(strict_types=1);
 
 namespace App\Repositories\Interfaces;
 
 
-interface RepositoryInterface
+interface ConversionRepositoryInterface
 {
 
   public function distributeRevenue(int $customerId, string $bookingNumber, int $revenue, string $cookie): bool;
