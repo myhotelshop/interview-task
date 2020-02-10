@@ -6,7 +6,7 @@ Goal is to implement a conversion tracking model for advertisers that weights va
 
 The project has been developed using:
 
-- Laravel Framework
+- Laravel5.7 Framework
 
 To be able to run the application please make sure you have the following software/s on your machine:
 
