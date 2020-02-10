@@ -20,8 +20,9 @@ To be able to run the application please make sure you have the following softwa
 - Run ```cd interview-task```
 - Create .env file and copy .env.example content into it 
 - Install project dependencies and run the applications by typing the following command ```docker-compose build && docker-compose up -d```
-- Then Run this command ``` docker-compose exec app bash ```
-- Then Run this command ``` php artisan migrate --seed ```
+- Then Run these commands ``` docker-compose exec app bash ```
+- ``` composer install ```
+- ``` php artisan migrate --seed ```
 - When The installation completes you can run the unit tests using the command ```php vendor/phpunit/phpunit/phpunit```
 - You can also use Postman by importing the collection included with this folder but make sure to add a cookie with name ```mhs_tracking``` to be able to call the /distribute-revenue endpoint 
     with a value like so ```{"placements": [{"platform": "trivago", "customer_id": 123, "date_of_contact": "2018-01-01 14:00:00"}, {"platform": "tripadvisor", "customer_id": 123, "date_of_contact": "2018-01-03 14:00:00"}, {"platform": "kayak", "customer_id": 123, "date_of_contact": "2018-01-05 14:00:00"}]}```
